@@ -1,36 +1,42 @@
 <?php
-include_once "constant.php";
-session_start();
-
-if (isset($_POST['itemName'], $_POST['quantity'], $_POST['totalCost'])) {
-
-    if (isset($_SESSION['user_id'])) {
-        $userId = $_SESSION['user_id'];
-        $item = $_POST['item'];
-        $quantity = intval($_POST['quantity']);
-        $totalCost = intval($_POST['totalCost']); 
-
-        $stmt = $link->prepare("SELECT id FROM users WHERE id = ?");
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows === 1) {
-
-            $row = $result->fetch_assoc();
-            $userId = $row['id'];
-
-            $stmt = $link->prepare("INSERT INTO transactions (user_id, quantity, item, total_price) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("iiss", $userId, $quantity, $item, $totalCost);
-            $stmt->execute();
-            $stmt->close();
-
-            echo $quantity . " " . $item . " has been added to cart.";
-        } else {
-            echo "Invalid user.";
-        }
-    } else {
-        echo "User not logged in.";
+// Check if itemName, quantity, payment, total, and excess are set in the POST request
+if (isset($_POST['itemName']) && isset($_POST['quantity']) && isset($_POST['payment']) && isset($_POST['total']) && isset($_POST['excess'])) {
+    // Get itemName, quantity, payment, total, and excess from the POST request
+    $itemName = $_POST['itemName'];
+    $quantity = $_POST['quantity'];
+    $payment = $_POST['payment'];
+    $total = $_POST['total'];
+    $excess = $_POST['excess'];
+    
+    // Connect to your database (modify this according to your database configuration)
+    $link = mysqli_connect("localhost", "root", "", "hci");
+    if ($link === false) {
+        die("ERROR: Could not connect. " . mysqli_connect_error());
     }
+    
+    // Prepare an insert statement
+    $sql = "INSERT INTO transaction (quantity, item, payment, total, excess) VALUES (?, ?, ?, ?, ?)";
+    if ($stmt = mysqli_prepare($link, $sql)) {
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "issss", $quantity, $itemName, $payment, $total, $excess);
+        
+        // Attempt to execute the prepared statement
+        if (mysqli_stmt_execute($stmt)) {
+            echo "Item added to cart successfully.";
+        } else {
+            echo "ERROR: Could not execute query: $sql. " . mysqli_error($link);
+        }
+        
+        // Close statement
+        mysqli_stmt_close($stmt);
+    } else {
+        echo "ERROR: Could not prepare query: $sql. " . mysqli_error($link);
+    }
+    
+    // Close connection
+    mysqli_close($link);
+} else {
+    // If itemName, quantity, payment, total, and excess are not set in the POST request
+    echo "ERROR: Missing parameters.";
 }
 ?>

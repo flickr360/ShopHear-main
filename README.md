@@ -1,6 +1,2 @@
 # ShopHear
-<<<<<<< HEAD
-testing
-=======
-paayos na lang
->>>>>>> 0a903320a53590eab3b78699701fe4eb83ad3b46
+okay na yung cart adjust the styling na lang, next is yung checkout shettttttttt

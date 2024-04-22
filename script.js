@@ -4,7 +4,7 @@
         const cart = document.getElementById('cart');
         const resultDiv = document.getElementById('result'); // Add result div reference
         const quantity = null;
-        const itemName = null;
+        const listItem = null;
         const price = null;
         totalPrice = null;
         let recognition = null; // Declare recognition variable globally
@@ -18,7 +18,7 @@
             url: 'cart.php',
             data: {
                 quantity: quantity,
-                itemName: name,
+                listItem: listItem,
                 price: price,
                 totalPrice: totalPrice
             },
@@ -195,25 +195,24 @@
                     console.log('result handling:')
                     const quantity = parseInt(event.results[event.results.length - 1][0].transcript.trim());
                     if (!isNaN(quantity) && quantity > 0) {
+                        addToTransaction(itemName, quantity, "", "", "");
                         for (let i = 0; i < quantity; i++) {
                             const listItem = document.createElement('div');
-                            listItem.textContent = `${name} - P${price}`;
-                            cart.appendChild(listItem);
+                            listItem.textContent = `${name}`;
                             console.log(listItem);
+                            cart.appendChild(listItem);
                         }
                         outputDiv.textContent = `Added ${quantity} ${name} to cart.`;
                         console.log(`Added ${quantity} ${name} to cart.`);
                     } else {
-                        // If an invalid quantity is recognized, inform the user and restart recognition
                         outputDiv.textContent = `Invalid quantity for ${name}. Please try again.`;
                         console.log(`Invalid quantity for ${name}. Please try again.`);
-                        recognition.start(); // Restart recognition
+                        recognition.start();
                     }
 
                     // Reset recognition event handlers after processing the command
                     recognition.onresult = null;
                     recognition.onend = null;
-
                     selectedItem = null;
                 };
             } else {

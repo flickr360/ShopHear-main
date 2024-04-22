@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShopHear</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script></script>
 
@@ -17,6 +18,12 @@
         .grid-item{
             text-align: center;
         }
+        #cart-container{
+            float: right;
+        }
+        #cart{
+            font-size: 100px;
+        }
     </style>
 </head>
 <body>
@@ -24,6 +31,15 @@
     <button id="startButton">Start Speech Recognition</button>
     <div id="output"></div>
     <div id="result"></div>
+
+<div class="cart-container">
+    <button>
+        <a href="cart.php">
+            <i class="bi bi-bag-fill" id="cart-button"></i>
+        </a>
+    </button>
+</div>
+
 
     <h2>Available Items</h2>
     <div class="container">
@@ -62,10 +78,6 @@
             </div>
         </div>
     </div>
-    
-
-    <h2>Cart</h2>
-    <ul id="cart"></ul>
 
     <script src="script.js"></script>
 </body>
