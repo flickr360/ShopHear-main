@@ -3,28 +3,34 @@
         const itemsList = document.getElementById('itemsList');
         const cart = document.getElementById('cart');
         const resultDiv = document.getElementById('result'); // Add result div reference
+        const quantity = null;
+        const itemName = null;
+        const price = null;
+        totalPrice = null;
         let recognition = null; // Declare recognition variable globally
         let isListening = false; // Track the current state of speech recognition
         let recognitionTimeout; // Declare a variable to store the recognition timeout
         let lastCommandTime = 0; // Initialize a variable to store the timestamp of the last recognized command
 
-       /* $.ajax({
-            type: 'POST',
-            url: 'insert-transaction.php',
-            data: {
-                itemName: itemName,
-                totalCost: itemPrice,
-                quantity: quantity,
-                picturePath: picturePath
-            },
-            success: function (response) {
-                alert(response);
-            },
-            error: function (error) {
-                console.error('Error:', error);
-            }
-        });*/
 
+        $.ajax({
+            type: 'GET',
+            url: 'cart.php',
+            data: {
+                quantity: quantity,
+                itemName: name,
+                price: price,
+                totalPrice: totalPrice
+            },
+            success: function(response) {
+                alert(response); // Optionally, you can handle the response here
+            },
+            error: function(error) {
+                console.error('Error:', error); // Handle errors appropriately
+            }
+        });
+        
+    
         // Function to initialize speech recognition
         function initRecognition() {
             // Create new instance of SpeechRecognition if not already created
@@ -110,6 +116,28 @@
         }
     };
 
+    function addToTransaction(itemName, quantity, payment, total, excess) {
+        $.ajax({
+            type: 'POST', // Use POST method to send data to PHP script
+            url: 'insert-transaction.php', // URL of your PHP script
+            data: { // Data to be sent to the PHP script
+                itemName: itemName,
+                quantity: quantity,
+                payment: payment,
+                total: total,
+                excess: excess
+            },
+            success: function(response) {
+                console.log(response); // Log the response from the PHP script
+                // You can handle the response here if needed
+            },
+            error: function(error) {
+                console.error('Error:', error); // Log any errors
+            }
+        });
+    }
+    
+
     // Modify the addToCart function to handle the two-step process
     function addToCart(voiceCommand) {
 
@@ -171,6 +199,7 @@
                             const listItem = document.createElement('div');
                             listItem.textContent = `${name} - P${price}`;
                             cart.appendChild(listItem);
+                            console.log(listItem);
                         }
                         outputDiv.textContent = `Added ${quantity} ${name} to cart.`;
                         console.log(`Added ${quantity} ${name} to cart.`);
