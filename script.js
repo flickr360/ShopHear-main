@@ -23,7 +23,7 @@
                 totalPrice: totalPrice
             },
             success: function(response) {
-                alert(response); // Optionally, you can handle the response here
+                
             },
             error: function(error) {
                 console.error('Error:', error); // Handle errors appropriately
@@ -73,7 +73,7 @@
         if (!isListening) {
             // Start speech recognition if not already active
             recognition.start();
-            startButton.textContent = 'Stop Listening'; // Change button text
+            startButton.innerHTML = '<img src="assets/recording.gif" alt="Recording Icon">';
             startButton.disabled = true; // Disable start button while recognition is active
             isListening = true; // Update state
             console.log('Speech recognition started.');
@@ -82,7 +82,7 @@
             // Stop speech recognition if already active
             clearTimeout(recognitionTimeout); // Clear the recognition timeout
             recognition.stop();
-            startButton.textContent = 'Start Speech Recognition'; // Change button text
+            startButton.innerHTML = '<img src="assets/metal ball.png" alt="Recording Icon">'; 
             isListening = false; // Update state
             console.log('Speech recognition stopped.');
             
@@ -93,14 +93,22 @@
 
     function getItemListId(itemName) {
         switch (itemName) {
-            case "glasses":
+            case "retro":
                 return "itemsList1";
-            case "aviator":
+            case "trendy":
                 return "itemsList2";
-            case "brow":
+            case "urban":
                 return "itemsList3";
-            case "four":
+            case "funky":
                 return "itemsList4";
+            case "sharp":
+                return "itemsList5";
+            case "iconic":
+                return "itemsList6";
+            case "fashion":
+                return "itemsList7";
+            case "classy":
+                return "itemsList8";
             default:
                 return itemName;
         }
@@ -115,24 +123,31 @@
             console.log('No voices available for speech synthesis.');
         }
     };
+    function addToCartButton(itemName) {
+        const quantity = parseInt(document.getElementById(`quantity_${itemName}`).value);
+        const price = parseInt(document.querySelector(`[data-name="${itemName}"]`).getAttribute('data-price'));
+        
+        const totalPrice = quantity * price;
 
-    function addToTransaction(itemName, quantity, payment, total, excess) {
+        addToTransaction(itemName, quantity, totalPrice);
+    }
+
+    function addToTransaction(itemName, quantity, totalPrice) {
+        alert(`${quantity} ${itemName} has been added to cart successfully.`);
+
         $.ajax({
-            type: 'POST', // Use POST method to send data to PHP script
-            url: 'insert-transaction.php', // URL of your PHP script
-            data: { // Data to be sent to the PHP script
+            type: 'POST',
+            url: 'insert-transaction.php',
+            data: {
                 itemName: itemName,
                 quantity: quantity,
-                payment: payment,
-                total: total,
-                excess: excess
+                totalPrice: totalPrice
             },
             success: function(response) {
-                console.log(response); // Log the response from the PHP script
-                // You can handle the response here if needed
+                console.log(response);
             },
             error: function(error) {
-                console.error('Error:', error); // Log any errors
+                console.error('Error:', error);
             }
         });
     }

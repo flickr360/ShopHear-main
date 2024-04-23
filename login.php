@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Varela+Round&family=Zen+Tokyo+Zoo&display=swap');
 
         body {
-            background-color: #ffffff;
+            background-color: #000000;
             margin: 0;
             padding: 0;
         }

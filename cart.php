@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <title>Cart Items</title>
-    <!-- Add any CSS or external libraries here -->
     <style>
+        body{
+            font-family: "Outfit", sans-serif;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -50,9 +56,7 @@
             <th>Select</th>
             <th>Item</th>
             <th>Quantity</th>
-            <th>Payment</th>
             <th>Total</th>
-            <th>Excess</th>
             <th>Action</th>
         </tr>
         <?php
@@ -76,9 +80,7 @@
                     echo '<td><input type="checkbox" class="order-checkbox"></td>';
                     echo '<td>' . $row['item'] . '</td>';
                     echo '<td>' . $row['quantity'] . '</td>';
-                    echo '<td>' . $row['payment'] . '</td>';
                     echo '<td>' . $row['total'] . '</td>';
-                    echo '<td>' . $row['excess'] . '</td>';
                     echo '<td>';
                     echo '<button class="edit-btn" data-id="' . $row['id'] . '">Edit</button>';
                     echo '<button class="delete-btn" data-id="' . $row['id'] . '">Delete</button>';
@@ -99,29 +101,21 @@
     
     <button class="order-btn" id="orderNowBtn">Order Now</button>
 
-    <!-- Add any additional HTML content or scripts here -->
     <script>
-        // Add JavaScript for handling edit and delete actions
         $(document).ready(function(){
-            // Edit button click event
             $('.edit-btn').click(function(){
                 var itemId = $(this).data('id');
-                // Redirect to edit page with itemId
                 window.location.href = 'edit.php?id=' + itemId;
             });
 
-            // Delete button click event
             $('.delete-btn').click(function(){
                 var itemId = $(this).data('id');
-                // Confirm delete action
                 if(confirm('Are you sure you want to delete this item?')){
-                    // AJAX call to delete.php with itemId
                     $.ajax({
                         url: 'delete-item.php',
                         type: 'POST',
                         data: { id: itemId },
                         success: function(response){
-                            // Reload the page after successful delete
                             location.reload();
                         },
                         error: function(xhr, status, error){
@@ -132,14 +126,11 @@
                 }
             });
 
-            // Order Now button click event
             $('#orderNowBtn').click(function(){
-                // Get the IDs of selected items
                 var selectedItems = [];
                 $('.order-checkbox:checked').each(function(){
                     selectedItems.push($(this).closest('tr').find('.edit-btn').data('id'));
                 });
-                // Redirect to order page with selected item IDs
                 window.location.href = 'order.php?items=' + selectedItems.join(',');
             });
         });
