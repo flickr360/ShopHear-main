@@ -161,8 +161,12 @@ session_start();
         <a href="cart.php">
             <i class="bi bi-bag-fill" id="cart-button"></i>
         </a>
+        <a href="logout.php">
+            <button>logout</button>
+        </a>
     </div>
 </nav>
+
 
     <div class="container">
         <h1 class="cartlb">Cart:</h1>
@@ -180,6 +184,8 @@ session_start();
             </thead>
             <tbody>
             <?php
+                // Include necessary files and establish database connection
+
                 include("constant.php");
 
                 $link = mysqli_connect("localhost", "root", "", "hci");
@@ -228,6 +234,7 @@ session_start();
                 } else {
                     echo '<tr><td colspan="6">ERROR: Could not execute query: ' . $sql . '. ' . mysqli_error($link) . '</td></tr>';
                 }
+
                 echo '<tr id="totalBillRow">';
                 echo '<td colspan="4">Total Bill:</td>';
                 echo '<td id="totalBillAmount" colspan="1">' . $totalBill . '</td>';
