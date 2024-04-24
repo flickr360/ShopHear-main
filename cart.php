@@ -15,8 +15,16 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        body {
+        html, body{
+            width: 100%;
+            height: 100%;
             font-family: "Outfit", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 200;
+            font-style: normal;
+            color: #282828;
+        }
+        body {
             background-image: url("assets/cart-bg.jpg");
             background-size: cover;
             background-position: center;
@@ -119,6 +127,24 @@ session_start();
         margin-left: 10px; 
         margin-right: 10px; 
         }
+        .edit-btn,
+        .delete-btn,
+        .order-btn {
+            padding: 8px 16px;
+            background-color: #642a94;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .edit-btn:hover,
+        .delete-btn:hover,
+        .order-btn:hover {
+            background-color: #240d35
+        }
+
     </style>
 </head>
 <body>
@@ -140,6 +166,7 @@ session_start();
 
     <div class="container">
         <h1 class="cartlb">Cart:</h1>
+        <div class="table-responsive">
         <table>
             <thead>
                 <tr>
@@ -211,6 +238,7 @@ session_start();
                 ?>
             </tbody>
         </table>
+            </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

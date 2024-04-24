@@ -74,7 +74,6 @@
             // Start speech recognition if not already active
             recognition.start();
             startButton.innerHTML = '<img src="assets/recording.gif" alt="Recording Icon">';
-            startButton.disabled = true; // Disable start button while recognition is active
             isListening = true; // Update state
             console.log('Speech recognition started.');
             

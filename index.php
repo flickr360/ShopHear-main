@@ -137,7 +137,6 @@ if (!isset($_SESSION['username'])) {
             font-size: 20px;
         }
         .indicator {
-            margin-top: 20px;
             background: transparent;
             border: none;
             float: right;
