@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $loginPassword = $_POST['loginPassword'];
 
     if (!empty($loginUsername) && !empty($loginPassword)) {
-        // Check if the username exists in the database
         $query = "SELECT * FROM users WHERE username = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $loginUsername);
@@ -23,19 +22,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 // Password matches, set session and redirect to home.php
                 $_SESSION['login'] = true;
                 $_SESSION['username'] = $row['username']; // Set the username in the session
-                $_SESSION['user_id'] = $row['id']; // Assuming 'id' is the column name for the user ID in your databa
+                $_SESSION['user_id'] = $row['id']; // Assuming 'id' is the column name for the user ID in your database
                 header("Location: index.php");
             } else {
-                echo "Incorrect password";
+                echo '<script>alert("Incorrect password");</script>';
             }
         } else {
-            echo "Username not found";
+            echo '<script>alert("Username not found");</script>';
         }
     } else {
-        echo "Please enter valid information";
+        echo '<script>alert("Please enter valid information");</script>';
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>

@@ -1,3 +1,13 @@
+<?php
+session_start();
+include("constant.php");
+
+if (!isset($_SESSION['username'])) {
+    header('Location: login.php');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,9 +48,7 @@
         .navbar-brand {
             margin-left: 20px; 
         }
-
-        .cart-container{
-            margin-right: 30px;
+        .container{
         }
         #cart-button{
             font-size: 30px;
@@ -87,7 +95,6 @@
             }
         
             .grid-item {
-                max-width: 300px;
                 min-height: 200px;
                 display: flex;
                 flex-direction: column;
@@ -119,6 +126,7 @@
         #instruction{
             margin-top: 25px;
             font-size: 50px;
+            justify-content: center;
         }
         #available-items{
             margin-top: 30px;
@@ -130,11 +138,13 @@
         }
         .indicator {
             margin-top: 20px;
-            margin-right: 20px;
             background: transparent;
             border: none;
             float: right;
-            position: sticky;
+            position: fixed;
+            bottom: 20px; /* Adjust as needed */
+            right: 20px; /* Adjust as needed */
+            z-index: 9999;
         }
         
         .indicator img {
@@ -184,7 +194,39 @@
             box-shadow: none;
             transform: translateY(0);
             }
+            @media (max-width: 576px) {
+            #instruction {
+                font-size: 30px; 
+            }
+            .indicator {
+            bottom: 20px; 
+            right: 20px; 
+        }
+            @media (min-width: 576px) {
+            .indicator {
+                display: none;
+            }
+        }
+        .items {
+            margin: 0; 
+            padding: 0; 
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8); 
+            }
+            50% {
+                transform: scale(0.9); 
+            }
+            100% {
+                transform: scale(0.8); 
+            }
+        }
 
+        .indicator img {
+            animation: pulse 1.5s infinite; 
+        }
+    }
     </style>
 </head>
 <body>
@@ -206,64 +248,64 @@
     </button>
 
     <div class="greetings">
-    <p id="instruction">Press Spacebar and say "add <strong>item</strong> to cart".</hp> 
+    <p id="instruction" class="mb-0">Press Spacebar and say "add <strong>item</strong> to cart".</hp> 
     <p></p>
-    <p id="available-items">Available Items</p>
+    <p id="available-items" class="mb=0">Available Items</p>
     </div>
     
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
+    <div class="container mx-auto">
+        <div class="row text-center mx-auto">
+            <div class="col-12 col-md-6 col-lg-3 mx-auto">
                 <ul id="itemsList1" class="items">
                     <div class="grid-item" data-name="retro" data-price="50">
-                        <img src="assets/1.png" alt="glasses">
+                        <img src="assets/retro.png" alt="glasses">
                         <h1>retro</h1>
                         <p>₱50</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_retro" class="quantity">
+                            <input type="number" id="quantity_retro" class="quantity" class="quantity form-control">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('retro')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-6 col-lg-3 mx-auto">
                 <ul id="itemsList2" class="items">
                     <div class="grid-item" data-name="trendy" data-price="100">
-                        <img src="assets/2.png" alt="trendy">
+                        <img src="assets/trendy.png" alt="trendy">
                         <h1>trendy</h1>
                         <p>₱100</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_trendy" class="quantity">
+                            <input type="number" id="quantity_trendy" class="quantity" class="quantity form-control">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('trendy')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-6 col-lg-3 mx-auto">
                 <ul id="itemsList3" class="items">
                     <div class="grid-item" data-name="urban" data-price="150">
-                        <img src="assets/3.png" alt="urban">
+                        <img src="assets/urban.png" alt="urban">
                         <h1>urban</h1>
                         <p>₱150</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_urban" class="quantity">
+                            <input type="number" id="quantity_urban" class="quantity" class="quantity form-control">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('urban')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-6 col-lg-3 mx-auto">
                 <ul id="itemsList4" class="items">
                     <div class="grid-item" data-name="funky" data-price="200">
-                        <img src="assets/4.png" alt="funky">
+                        <img src="assets/funky.png" alt="funky">
                         <h1>funky</h1>
                         <p>₱200</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_funky" class="quantity">
+                            <input type="number" id="quantity_funky" class="quantity" class="quantity form-control">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('funky')">Add to Cart</button>
                     </div>
@@ -271,58 +313,58 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-3">
+        <div class="row text-center mx-auto">
+            <div class="col-12 col-md-6 col-lg-3 mx-auto">
                 <ul id="itemsList5" class="items">
                     <div class="grid-item" data-name="sharp" data-price="50">
-                        <img src="assets/5.png" alt="sharp">
+                        <img src="assets/sharp.png" alt="sharp">
                         <h1>sharp</h1>
                         <p>₱50</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_sharp" class="quantity">
+                            <input type="number" id="quantity_sharp" class="quantity" class="quantity form-control">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('sharp')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-6 col-lg-3 mx-auto">
                 <ul id="itemsList6" class="items">
                     <div class="grid-item" data-name="iconic" data-price="100">
-                        <img src="assets/6.png" alt="iconic">
+                        <img src="assets/iconic.png" alt="iconic">
                         <h1>iconic</h1>
                         <p>₱100</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_iconic" class="quantity">
+                            <input type="number" id="quantity_iconic" class="quantity" class="quantity form-control">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('iconic')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-6 col-lg-3 mx-auto">
                 <ul id="itemsList7" class="items">
                     <div class="grid-item" data-name="fashion" data-price="150">
-                        <img src="assets/7.png" alt="fashion">
+                        <img src="assets/fashion.png" alt="fashion">
                         <h1>fashion</h1>
                         <p>₱150</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_fashion" class="quantity">
+                            <input type="number" id="quantity_fashion" class="quantity" class="quantity form-control">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('fashion')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-6 col-lg-3 mx-auto">
                 <ul id="itemsList8" class="items">
                     <div class="grid-item" data-name="classy" data-price="200">
-                        <img src="assets/8.png" alt="classy">
+                        <img src="assets/classy.png" alt="classy">
                         <h1>classy</h1>
                         <p>₱200</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_classy" class="quantity">
+                            <input type="number" id="quantity_classy" class="quantity" class="quantity form-control">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('classy')">Add to Cart</button>
                     </div>

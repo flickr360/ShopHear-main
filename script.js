@@ -153,78 +153,70 @@
     }
     
 
-    // Modify the addToCart function to handle the two-step process
     function addToCart(voiceCommand) {
-
         // Calculate the time difference since the last recognized command
         const currentTime = new Date().getTime();
         const timeDifference = currentTime - lastCommandTime;
-
+    
         // If the time difference is less than 1000 milliseconds (1 second), ignore the command
         if (timeDifference < 1000) {
             return;
         }
-        
+    
         lastCommandTime = currentTime; // Update the last command time
-
+    
         const match = voiceCommand.match(/add (.+) to cart/i); // Match the item name without the quantity
         if (match && match[1]) { // Check if match and match[1] exist
             let itemName = match[1].trim().toLowerCase(); // Access match at index 1
             console.log("Item Name from Voice Command:", itemName);
-
+    
             let itemsListId = getItemListId(itemName);
             let itemsList = document.getElementById(itemsListId);
-
+    
             // Find the selected item in the items list
             selectedItem = Array.from(itemsList.children).find(item => {
                 const name = item.getAttribute('data-name').toLowerCase(); // Convert to lowercase
-                console.log("Item Name in List:" , name);
+                console.log("Item Name in List:", name);
                 return name === itemName; // Compare lowercase versions
-
             });
-
+    
             if (selectedItem) {
                 let name = selectedItem.getAttribute('data-name'); // Use getAttribute('data-name')
-                let price = selectedItem.getAttribute('data-price');
-
+                let price = parseFloat(selectedItem.getAttribute('data-price'));
+    
                 // Speak the prompt for quantity
                 const utterance = new SpeechSynthesisUtterance();
                 utterance.text = `How many ${name} would you like?`;
                 utterance.voice = speechSynthesis.getVoices()[0]; // Set the voice
-
+    
                 // Speak the prompt
                 speechSynthesis.speak(utterance);
-
+    
                 // Temporarily stop recognition while the prompt is being uttered
                 recognition.stop();
+    
                 // Listen for the end of the utterance and start recognizing the user's response
-                    utterance.onend = () => {
-                        console.log('Quantity prompt spoken:', utterance.text); // Log the quantity prompt
-                        recognition.start(); // Start recognizing the user's response
-                    };
-
-                
-
+                utterance.onend = () => {
+                    console.log('Quantity prompt spoken:', utterance.text); // Log the quantity prompt
+                    recognition.start(); // Start recognizing the user's response
+                };
+    
                 // Listen for the user's response after the utterance has finished speaking
                 recognition.onresult = function handleResult(event) {
                     console.log('result handling:')
                     const quantity = parseInt(event.results[event.results.length - 1][0].transcript.trim());
                     if (!isNaN(quantity) && quantity > 0) {
-                        addToTransaction(itemName, quantity, "", "", "");
-                        for (let i = 0; i < quantity; i++) {
-                            const listItem = document.createElement('div');
-                            listItem.textContent = `${name}`;
-                            console.log(listItem);
-                            cart.appendChild(listItem);
-                        }
-                        outputDiv.textContent = `Added ${quantity} ${name} to cart.`;
-                        console.log(`Added ${quantity} ${name} to cart.`);
+                        const price = parseInt(document.querySelector(`[data-name="${itemName}"]`).getAttribute('data-price'));
+
+                        const totalPrice = quantity * price;
+                        addToTransaction(itemName, quantity, totalPrice);
+                        console.log(`Added ${quantity} ${name} to cart. Total price: $${totalPrice.toFixed(2)}`);
                     } else {
                         outputDiv.textContent = `Invalid quantity for ${name}. Please try again.`;
                         console.log(`Invalid quantity for ${name}. Please try again.`);
                         recognition.start();
                     }
-
+    
                     // Reset recognition event handlers after processing the command
                     recognition.onresult = null;
                     recognition.onend = null;
@@ -233,20 +225,18 @@
             } else {
                 outputDiv.textContent = `Item "${itemName}" not found.`;
                 console.log('Item not found');
-
+    
                 // Restart recognition after an item is not found
                 recognition.start();
             }
         } else {
             console.log('Invalid command');
-
+    
             // Restart recognition after an invalid command is recognized
             recognition.start();
         }
     }
-
-
-        
+    
         // Add event listener for startButton click
         startButton.addEventListener('click', toggleRecognition);
 
