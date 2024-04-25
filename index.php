@@ -236,7 +236,7 @@ if (!isset($_SESSION['username'])) {
     <h1 class="brandname">ShopHear</h1>
   </a>
   <div class="cart-container">
-        <a href="cart.php">
+        <a id="cart">
             <i class="bi bi-bag-fill" id="cart-button"></i>
         </a>    
 </div>
@@ -264,7 +264,7 @@ if (!isset($_SESSION['username'])) {
                             <label>Quantity:</label>
                             <input type="number" id="quantity_retro" class="quantity" class="quantity form-control">
                         </div>
-                        <button class="cartbtn" onclick="addToCartButton('retro')">Add to Cart</button>
+                        <button class="cartbtn" onclick="addToCartButton('retro', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
@@ -278,7 +278,7 @@ if (!isset($_SESSION['username'])) {
                             <label>Quantity:</label>
                             <input type="number" id="quantity_trendy" class="quantity" class="quantity form-control">
                         </div>
-                        <button class="cartbtn" onclick="addToCartButton('trendy')">Add to Cart</button>
+                        <button class="cartbtn" onclick="addToCartButton('trendy', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
@@ -292,7 +292,8 @@ if (!isset($_SESSION['username'])) {
                             <label>Quantity:</label>
                             <input type="number" id="quantity_urban" class="quantity" class="quantity form-control">
                         </div>
-                        <button class="cartbtn" onclick="addToCartButton('urban')">Add to Cart</button>
+                        <button class="cartbtn" onclick="addToCartButton('urban', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
+
                     </div>
                 </ul>
             </div>
@@ -306,7 +307,7 @@ if (!isset($_SESSION['username'])) {
                             <label>Quantity:</label>
                             <input type="number" id="quantity_funky" class="quantity" class="quantity form-control">
                         </div>
-                        <button class="cartbtn" onclick="addToCartButton('funky')">Add to Cart</button>
+                        <button class="cartbtn" onclick="addToCartButton('funky', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
@@ -323,7 +324,7 @@ if (!isset($_SESSION['username'])) {
                             <label>Quantity:</label>
                             <input type="number" id="quantity_sharp" class="quantity" class="quantity form-control">
                         </div>
-                        <button class="cartbtn" onclick="addToCartButton('sharp')">Add to Cart</button>
+                        <button class="cartbtn" onclick="addToCartButton('sharp', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
@@ -337,7 +338,7 @@ if (!isset($_SESSION['username'])) {
                             <label>Quantity:</label>
                             <input type="number" id="quantity_iconic" class="quantity" class="quantity form-control">
                         </div>
-                        <button class="cartbtn" onclick="addToCartButton('iconic')">Add to Cart</button>
+                        <button class="cartbtn" onclick="addToCartButton('iconic', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
@@ -351,7 +352,7 @@ if (!isset($_SESSION['username'])) {
                             <label>Quantity:</label>
                             <input type="number" id="quantity_fashion" class="quantity" class="quantity form-control">
                         </div>
-                        <button class="cartbtn" onclick="addToCartButton('fashion')">Add to Cart</button>
+                        <button class="cartbtn" onclick="addToCartButton('fashion', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
@@ -365,7 +366,7 @@ if (!isset($_SESSION['username'])) {
                             <label>Quantity:</label>
                             <input type="number" id="quantity_classy" class="quantity" class="quantity form-control">
                         </div>
-                        <button class="cartbtn" onclick="addToCartButton('classy')">Add to Cart</button>
+                        <button class="cartbtn" onclick="addToCartButton('classy', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
                 </ul>
             </div>
@@ -373,5 +374,16 @@ if (!isset($_SESSION['username'])) {
     </div>
 
     <script src="script.js"></script>
+    <script>
+        $(document).ready(function(){
+            var urlParams = new URLSearchParams(window.location.search);
+            var userId = urlParams.get('user_id');
+
+
+            $("#cart").click(function(){
+                window.location.href = "cart.php?user_id=" +userId;
+            });
+        });
+    </script>
 </body>
 </html>

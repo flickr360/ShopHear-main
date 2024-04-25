@@ -1,10 +1,11 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if itemName, quantity, and totalPrice are set in the POST request
-    if (isset($_POST['itemName']) && isset($_POST['quantity']) && isset($_POST['totalPrice'])) {
+    if (isset($_POST['itemName']) && isset($_POST['quantity']) && isset($_POST['totalPrice']) && $_POST['userId']) {
         $itemName = $_POST['itemName'];
         $quantity = $_POST['quantity'];
         $totalPrice = $_POST['totalPrice'];
+        $userId = $_POST['userId'];
 
         // Connect to your database (modify this according to your database configuration)
         $link = mysqli_connect("localhost", "root", "", "hci");
@@ -13,11 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Prepare an insert statement
-        $sql = "INSERT INTO transaction (item, quantity, total) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO transaction (item, quantity, total, user_id) VALUES (?, ?, ? ,?)";
         $stmt = mysqli_prepare($link, $sql);
         if ($stmt) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sii", $itemName, $quantity, $totalPrice);
+            mysqli_stmt_bind_param($stmt, "siis", $itemName, $quantity, $totalPrice, $userId);
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {

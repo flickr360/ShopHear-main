@@ -17,13 +17,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             // Username exists, now check if the password matches
             $row = $result->fetch_assoc();
             $hashedPassword = $row['password'];
+            $userId = $row['username'];
 
             if (password_verify($loginPassword, $hashedPassword)) {
                 // Password matches, set session and redirect to home.php
-                $_SESSION['login'] = true;
-                $_SESSION['username'] = $row['username']; // Set the username in the session
-                $_SESSION['user_id'] = $row['id']; // Assuming 'id' is the column name for the user ID in your database
-                header("Location: index.php");
+                // Password matches, set session and redirect to home.php
+            $_SESSION['login'] = true;
+            $_SESSION['username'] = $row['username']; // Set the username in the session
+            $_SESSION['user_id'] = $row['id']; // Assuming 'id' is the column name for the user ID in your database
+
+// Redirect to index.php with the user ID as a query parameter
+header("Location: index.php?user_id=" . urlencode($userId));
+
             } else {
                 echo '<script>alert("Incorrect password");</script>';
             }

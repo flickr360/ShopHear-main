@@ -12,6 +12,7 @@
         let recognitionTimeout; // Declare a variable to store the recognition timeout
         let lastCommandTime = 0; // Initialize a variable to store the timestamp of the last recognized command
 
+       
 
         $.ajax({
             type: 'GET',
@@ -122,34 +123,45 @@
             console.log('No voices available for speech synthesis.');
         }
     };
-    function addToCartButton(itemName) {
+    function addToCartButton(itemName, userId) {
         const quantity = parseInt(document.getElementById(`quantity_${itemName}`).value);
         const price = parseInt(document.querySelector(`[data-name="${itemName}"]`).getAttribute('data-price'));
         
         const totalPrice = quantity * price;
 
-        addToTransaction(itemName, quantity, totalPrice);
+        addToTransaction(itemName, quantity, totalPrice, userId);
     }
 
-    function addToTransaction(itemName, quantity, totalPrice) {
-        alert(`${quantity} ${itemName} has been added to cart successfully.`);
+    
+        var urlParams = new URLSearchParams(window.location.search);
+        var userId = urlParams.get('user_id');
 
-        $.ajax({
-            type: 'POST',
-            url: 'insert-transaction.php',
-            data: {
-                itemName: itemName,
-                quantity: quantity,
-                totalPrice: totalPrice
-            },
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(error) {
-                console.error('Error:', error);
-            }
+
+        $("#cart").click(function(){
+            window.location.href = "cart.php?user_id=" +userId;
         });
-    }
+
+        function addToTransaction(itemName, quantity, totalPrice, userId) {
+            
+    
+            $.ajax({
+                type: 'POST',
+                url: 'insert-transaction.php',
+                data: {
+                    itemName: itemName,
+                    quantity: quantity,
+                    totalPrice: totalPrice,
+                    userId: userId
+                    
+                },
+                success: function(response) {
+                    alert(quantity + " " + itemName + " added to cart");
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
     
 
     function addToCart(voiceCommand) {

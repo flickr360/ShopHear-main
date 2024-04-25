@@ -155,11 +155,8 @@ session_start();
         <h1 class="brandname">ShopHear</h1>
     </a>
     <div class="ml-auto">
-        <a href="index.php">
+        <a href="index.php?user_id=<?php echo $_GET['user_id']; ?> ">
             <i class="bi bi-eyeglasses" id="glasses-button"></i>
-        </a>
-        <a href="cart.php">
-            <i class="bi bi-bag-fill" id="cart-button"></i>
         </a>
         <a href="logout.php">
             <button>logout</button>
@@ -200,16 +197,10 @@ session_start();
 
                 $totalBill = 0;
 
-                if (isset($_SESSION['user_id'])) {
-                    $userId = $_SESSION['user_id'];
-
-                    $sql = "SELECT * FROM transaction WHERE id = $userId";
+                if (isset($_GET['user_id']) && !empty($_GET['user_id'])) {
+                    $userId = $_GET['user_id'];
+                    $sql = "SELECT * FROM transaction WHERE user_id = '$userId'";
                     $result = mysqli_query($link, $sql);
-                }
-
-                // Attempt select query execution
-                $sql = "SELECT * FROM transaction";
-                $result = mysqli_query($link, $sql);
                 if ($result) {
                     // Check if there are rows returned
                     if (mysqli_num_rows($result) > 0) {
@@ -238,10 +229,17 @@ session_start();
                 echo '<tr id="totalBillRow">';
                 echo '<td colspan="4">Total Bill:</td>';
                 echo '<td id="totalBillAmount" colspan="1">' . $totalBill . '</td>';
-                echo '<td><button class="order-btn" id="orderNowBtn">Order Now</button>';
+                echo '<td>';
+                echo '<button class="order-btn" id="orderNowBtn">Order Now</button>';
+                echo '<button onclick="deleteSelectedItems()">Delete Selected Items</button>';
+                echo '</td>';
                 echo '</tr>';
 
                 mysqli_close($link);
+                }
+
+                // Attempt select query execution
+                
                 ?>
             </tbody>
         </table>
@@ -250,6 +248,39 @@ session_start();
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
+            function deleteSelectedItems() {
+        var selectedItems = [];
+        $('.order-checkbox:checked').each(function() {
+            selectedItems.push($(this).closest('tr').find('.delete-btn').data('id'));
+        });
+
+        // Check if no item was selected
+        if (selectedItems.length === 0) {
+            alert('No item was selected.');
+            return; // Stop further execution
+        }
+
+        // Confirm deletion
+        if (confirm('Are you sure you want to delete all selected items?')) {
+            // Loop through each selected item ID and initiate AJAX request to delete it
+            selectedItems.forEach(function(itemId) {
+                $.ajax({
+                    url: 'delete-item.php',
+                    type: 'POST',
+                    data: { id: itemId },
+                    success: function(response) {
+                        // Reload the page after successful deletion
+                        location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        alert('An error occurred while deleting the item. Please try again later.');
+                    }
+                });
+            });
+        }
+    }
+
             $('.delete-btn').click(function(){
                 var itemId = $(this).data('id');
                 if(confirm('Are you sure you want to delete this item?')){
