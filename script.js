@@ -2,15 +2,17 @@
         const outputDiv = document.getElementById('output');
         const itemsList = document.getElementById('itemsList');
         const cart = document.getElementById('cart');
-        const resultDiv = document.getElementById('result'); // Add result div reference
+        const resultDiv = document.getElementById('result'); 
         const quantity = null;
         const listItem = null;
         const price = null;
         totalPrice = null;
-        let recognition = null; // Declare recognition variable globally
-        let isListening = false; // Track the current state of speech recognition
-        let recognitionTimeout; // Declare a variable to store the recognition timeout
-        let lastCommandTime = 0; // Initialize a variable to store the timestamp of the last recognized command
+        let recognition = null; 
+        let isListening = false; 
+        let recognitionTimeout; 
+        let lastCommandTime = 0; 
+        let utteranceSpoken = false;
+        let orderProcessed = false;
 
        
 
@@ -27,23 +29,18 @@
                 
             },
             error: function(error) {
-                console.error('Error:', error); // Handle errors appropriately
+                console.error('Error:', error); 
             }
         });
         
-    
-        // Function to initialize speech recognition
         function initRecognition() {
-            // Create new instance of SpeechRecognition if not already created
             if (!recognition) {
                 recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                 
-                // Set properties for recognition
-                recognition.lang = 'en-US'; // Specify language
-                recognition.continuous = true; // Keep listening until stopped
-                recognition.interimResults = true; // Get interim results
+                recognition.lang = 'en-US'; 
+                recognition.continuous = true; 
+                recognition.interimResults = true; 
                 
-                // Add event listener for result event
                 recognition.onresult = (event) => {
                     const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
                     addToCart(transcript);
@@ -51,42 +48,35 @@
                     
                 };
                 
-                // Add event listener for error event
                 recognition.onerror = (event) => {
                     console.error('Speech recognition error:', event.error);
                     outputDiv.textContent = 'Speech recognition error: ' + event.error;
                 };
 
-                // Add event listener for end event
                 recognition.onend = () => {
-                    startButton.disabled = false; // Enable start button when recognition ends
+                    startButton.disabled = false; 
                 };
             }
         }
 
 
 
-    // Function to toggle speech recognition
     function toggleRecognition() {
-        // Initialize speech recognition if not already initialized
         initRecognition();
         
         if (!isListening) {
-            // Start speech recognition if not already active
             recognition.start();
             startButton.innerHTML = '<img src="assets/recording.gif" alt="Recording Icon">';
-            isListening = true; // Update state
+            isListening = true; 
             console.log('Speech recognition started.');
             
         } else {
-            // Stop speech recognition if already active
-            clearTimeout(recognitionTimeout); // Clear the recognition timeout
+            clearTimeout(recognitionTimeout); 
             recognition.stop();
             startButton.innerHTML = '<img src="assets/metal ball.png" alt="Recording Icon">'; 
-            isListening = false; // Update state
+            isListening = false; 
             console.log('Speech recognition stopped.');
             
-            // Reset the recognition object completely
             recognition = null;
         }
     }
@@ -164,97 +154,141 @@
         }
     
 
-    function addToCart(voiceCommand) {
-        // Calculate the time difference since the last recognized command
-        const currentTime = new Date().getTime();
-        const timeDifference = currentTime - lastCommandTime;
-    
-        // If the time difference is less than 1000 milliseconds (1 second), ignore the command
-        if (timeDifference < 1000) {
-            return;
+        function wordToNumber(transcript) {
+            const wordMap = {
+                'zero': 0,
+                'one': 1,
+                'two': 2,
+                'three': 3,
+                'four': 4,
+                'five': 5,
+                'six': 6,
+                'seven': 7,
+                'eight': 8,
+                'nine': 9,
+                'ten': 10,
+                'eleven': 11,
+                'twelve': 12,
+                'thirteen': 13,
+                'fourteen': 14,
+                'fifteen': 15,
+                'sixteen': 16,
+                'seventeen': 17,
+                'eighteen': 18,
+                'nineteen': 19,
+                'twenty': 20,
+                'thirty': 30,
+                'forty': 40,
+                'fifty': 50,
+                'sixty': 60,
+                'seventy': 70,
+                'eighty': 80,
+                'ninety': 90,
+                'hundred': 100,
+                'thousand': 1000,
+                'million': 1000000,
+                'billion': 1000000000,
+            };
+            return transcript.toLowerCase().split(/\s+/).reduce((acc, curr) => {
+                if (wordMap[curr]) {
+                    return acc + wordMap[curr];
+                } else {
+                    return acc;
+                }
+            }, 0);
         }
-    
-        lastCommandTime = currentTime; // Update the last command time
-    
-        const match = voiceCommand.match(/add (.+) to cart/i); // Match the item name without the quantity
-        if (match && match[1]) { // Check if match and match[1] exist
-            let itemName = match[1].trim().toLowerCase(); // Access match at index 1
-            console.log("Item Name from Voice Command:", itemName);
-    
-            let itemsListId = getItemListId(itemName);
-            let itemsList = document.getElementById(itemsListId);
-    
-            // Find the selected item in the items list
-            selectedItem = Array.from(itemsList.children).find(item => {
-                const name = item.getAttribute('data-name').toLowerCase(); // Convert to lowercase
-                console.log("Item Name in List:", name);
-                return name === itemName; // Compare lowercase versions
-            });
-    
-            if (selectedItem) {
-                let name = selectedItem.getAttribute('data-name'); // Use getAttribute('data-name')
-                let price = parseFloat(selectedItem.getAttribute('data-price'));
-    
-                // Speak the prompt for quantity
-                const utterance = new SpeechSynthesisUtterance();
-                utterance.text = `How many ${name} would you like?`;
-                utterance.voice = speechSynthesis.getVoices()[0]; // Set the voice
-    
-                // Speak the prompt
-                speechSynthesis.speak(utterance);
-    
-                // Temporarily stop recognition while the prompt is being uttered
-                recognition.stop();
-    
-                // Listen for the end of the utterance and start recognizing the user's response
-                utterance.onend = () => {
-                    console.log('Quantity prompt spoken:', utterance.text); // Log the quantity prompt
-                    recognition.start(); // Start recognizing the user's response
-                };
-    
-                // Listen for the user's response after the utterance has finished speaking
-                recognition.onresult = function handleResult(event) {
-                    console.log('result handling:')
-                    const quantity = parseInt(event.results[event.results.length - 1][0].transcript.trim());
-                    if (!isNaN(quantity) && quantity > 0) {
-                        const price = parseInt(document.querySelector(`[data-name="${itemName}"]`).getAttribute('data-price'));
+        
 
-                        const totalPrice = quantity * price;
-                        addToTransaction(itemName, quantity, totalPrice);
-                        console.log(`Added ${quantity} ${name} to cart. Total price: $${totalPrice.toFixed(2)}`);
-                    } else {
-                        outputDiv.textContent = `Invalid quantity for ${name}. Please try again.`;
-                        console.log(`Invalid quantity for ${name}. Please try again.`);
-                        recognition.start();
-                    }
-    
-                    // Reset recognition event handlers after processing the command
-                    recognition.onresult = null;
-                    recognition.onend = null;
-                    selectedItem = null;
-                };
-            } else {
-                outputDiv.textContent = `Item "${itemName}" not found.`;
-                console.log('Item not found');
-    
-                // Restart recognition after an item is not found
-                recognition.start();
+        function addToCart(voiceCommand) {
+            const currentTime = new Date().getTime();
+            const timeDifference = currentTime - lastCommandTime;
+        
+            if (timeDifference < 1000) {
+                return;
             }
-        } else {
-            console.log('Invalid command');
-    
-            // Restart recognition after an invalid command is recognized
-            recognition.start();
+        
+            lastCommandTime = currentTime;
+        
+            const match = voiceCommand.match(/add (.+) to cart/i);
+            if (match && match[1]) {
+                let itemName = match[1].trim().toLowerCase();
+                console.log("Item Name from Voice Command:", itemName);
+        
+                let itemsListId = getItemListId(itemName);
+                let itemsList = document.getElementById(itemsListId);
+        
+                selectedItem = Array.from(itemsList.children).find(item => {
+                    const name = item.getAttribute('data-name').toLowerCase();
+                    console.log("Item Name in List:", name);
+                    return name === itemName;
+                });
+        
+                if (selectedItem) {
+                    let name = selectedItem.getAttribute('data-name');
+                    let price = parseFloat(selectedItem.getAttribute('data-price'));
+        
+                    const utterance = new SpeechSynthesisUtterance();
+                    utterance.text = `How many ${name} would you like?`;
+                    utterance.voice = speechSynthesis.getVoices()[0];
+        
+                    speechSynthesis.speak(utterance);
+        
+                    recognition.stop();
+        
+                    utterance.onend = () => {
+                        console.log('Quantity prompt spoken:', utterance.text);
+                        recognition.start();
+                    };
+        
+                    recognition.onresult = function handleResult(event) {
+                        if (orderProcessed) {
+                            return; // If order has already been processed, exit early
+                        }
+        
+                        const transcript = event.results[event.results.length - 1][0].transcript.trim();
+        
+                        if (transcript === "") {
+                            console.log('No input detected');
+                            return;
+                        }
+        
+                        const quantity = wordToNumber(transcript);
+        
+                        if (!isNaN(quantity) && quantity > 0) {
+                            const price = parseInt(document.querySelector(`[data-name="${itemName}"]`).getAttribute('data-price'));
+                            const totalPrice = quantity * price;
+                            addToTransaction(itemName, quantity, totalPrice, userId);
+                            console.log(`Added ${quantity} ${name} to cart. Total price: $${totalPrice.toFixed(2)}`);
+                            orderProcessed = true; // Set flag to true after processing the order
+                        } else {
+                            console.log('Invalid quantity, please try again');
+                        }
+                        selectedItem = null;
+                        orderProcessed = false;
+                    };
+        
+                } else {
+                    console.log('Item not found');
+        
+                    recognition.start();
+                }
+            } else {
+        
+                recognition.start();
+        
+                const utterance = new SpeechSynthesisUtterance();
+                utterance.text = `Invalid command, please try again`;
+                speechSynthesis.speak(utterance);
+            }
         }
-    }
-    
-        // Add event listener for startButton click
+        
+        
+
         startButton.addEventListener('click', toggleRecognition);
 
-        // Add event listener for keydown event on document
         document.addEventListener('keydown', (event) => {
-            if (event.key === ' ' || event.key === 'Space') { // Corrected key code for spacebar
-                event.preventDefault(); // Prevent default spacebar behavior (scrolling the page)
-                toggleRecognition(); // Toggle speech recognition
+            if (event.key === ' ' || event.key === 'Space') { 
+                event.preventDefault(); 
+                toggleRecognition();
             }
         });

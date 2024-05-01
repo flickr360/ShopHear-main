@@ -20,14 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $userId = $row['username'];
 
             if (password_verify($loginPassword, $hashedPassword)) {
-                // Password matches, set session and redirect to home.php
-                // Password matches, set session and redirect to home.php
             $_SESSION['login'] = true;
-            $_SESSION['username'] = $row['username']; // Set the username in the session
-            $_SESSION['user_id'] = $row['id']; // Assuming 'id' is the column name for the user ID in your database
+            $_SESSION['username'] = $row['username']; 
+            $_SESSION['user_id'] = $row['id']; 
 
-// Redirect to index.php with the user ID as a query parameter
-header("Location: index.php?user_id=" . urlencode($userId));
+header("Location: home.php?user_id=$userId");
 
             } else {
                 echo '<script>alert("Incorrect password");</script>';
@@ -59,57 +56,66 @@ header("Location: index.php?user_id=" . urlencode($userId));
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Varela+Round&family=Zen+Tokyo+Zoo&display=swap');
 
         body {
-            background-color: #000000;
+            background-color: #AD88C6;
+            background-image: url('yellow-bg.png');
+            background-size: cover; 
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
             margin: 0;
             padding: 0;
         }
 
         .mb-3 {
-            color: #FAF9F6;
+            color:#2e1142;
             font-family: 'Varela Round', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 8px;
         }
 
         .box {
-            margin-top: 20px;
+            margin-top: 60px;
             display: grid;
             place-items: center;
-             font-family: 'zen tokyo zoo', sans-serif;
-             z-index: -1;
+            font-family: 'zen tokyo zoo', sans-serif;
+            z-index: -1;
         }
-        .box p{
-            font-size: 80px;
+        .box p {
+            font-size: 180px; /* Increased font size */
+            font-weight: bold; /* Added bold font weight */
             text-transform: uppercase;
-            color: #ffd9e2;
+            color: #bb7781;
             text-shadow: 0 0 0 transparent,
-                        0 0 10px #ff003c,
-                        0 0 20px rgba(255, 0, 60, 0.5),
-                        0 0 40px #ff003c,
-                        0 0 100px #ff003c,
-                        0 0 200px #ff003c,
-                        0 0 300px #ff003c,
-                        0 0 500px #ff003c,
-                        0 0 1000px #ff003c;
-
-                animation: animate 3s infinite alternate;
+                        0 0 10px #240046,
+                        0 0 20px rgba(36, 0, 70, 0.5),
+                        0 0 40px #240046,
+                        0 0 100px #240046,
+                        0 0 200px #240046,
+                        0 0 300px #240046,
+                        0 0 500px #240046,
+                        0 0 1000px #240046;
+            animation: animate 5s infinite alternate;
         }
 
-        @keyframes animate{
-            40%{
-                opacity: 1;
+        @keyframes animate {
+            40% {
+                opacity: 0.1;
             }
-            42%{
+            42% {
                 opacity: 0.8;
             }
-            43%{
+            43% {
                 opacity: 1;
             }
-            45%{
+            45% {
                 opacity: 1;
             }
-            40%{
+            40% {
                 opacity: 1;
             }
         }
+
         input {
             background: rgba(0, 0, 0, 0.5) !important;
             color: #FAF9F6 !important; /* Change to the desired text color */
@@ -132,6 +138,7 @@ header("Location: index.php?user_id=" . urlencode($userId));
             z-index: 2;
         }
         .or-divider {
+            font-weight: bold;
             margin-left: 7px;
             margin-right: 7px;
             align-self: center;
@@ -167,144 +174,140 @@ header("Location: index.php?user_id=" . urlencode($userId));
         }
 
         #signupForm label {
-            color: #FAF9F6;
+            color: #37062b;
         }
         :root {
-  --clr-neon: hsl(346, 100%, 50%);
-  --clr-bg: hsl(0, 0%, 0%);
-}
-.signup {
-  text-transform: uppercase;
-  font-family: 'zen tokyo zoo', sans-serif;
-  background: rgba(0, 0, 0, 0.5) !important;
-  font-size: 15px;
-  display: inline-block;
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--clr-neon);
-  border: var(--clr-neon) 0.125em solid;
-  padding: 0.25em 1em;
-  border-radius: 0.25em;
-  margin-left: 11px;
-  width: 130px;
-  height: 50px;
+    --clr-neon: hsl(346, 100%, 50%);
+    --clr-bg: hsl(0, 0%, 0%);
+    }
+    .signup {
+    text-transform: uppercase;
+    font-family: 'zen tokyo zoo', sans-serif;
+    background: #37062b;
+    font-size: 15px;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--clr-neon);
+    border: var(--clr-neon) 0.125em solid;
+    padding: 0.25em 1em;
+    border-radius: 0.25em;
+    margin-left: 11px;
+    width: 130px;
+    height: 50px;
+    text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+    position: relative;
+    }
 
-  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+    .signup::before {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    background: var(--clr-neon);
+    top: 90%;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
-  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+    transform: perspective(3em) rotateX(40deg) scale(1, 0.35);
+    filter: blur(1em);
+    opacity: 0.7;
+    }
 
-  position: relative;
-}
+    .signup::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 0 2em 0.5em var(--clr-neon);
+    opacity: 0;
+    background-color: var(--clr-neon);
+    z-index: -1;
+    transition: opacity 100ms linear;
+    }
 
-.signup::before {
-  pointer-events: none;
-  content: "";
-  position: absolute;
-  background: var(--clr-neon);
-  top: 90%;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    .signup:hover,
+    .signup:focus {
+    color: var(--clr-bg);
+    text-shadow: none;
+    }
 
-  transform: perspective(3em) rotateX(40deg) scale(1, 0.35);
-  filter: blur(1em);
-  opacity: 0.7;
-}
+    .signup:hover::before,
+    .signup:focus::before {
+    opacity: 1;
+    }
+    .signup:hover::after,
+    .signup:focus::after {
+    opacity: 1;
+    }
+    .login {
+    text-transform: uppercase;
+    font-family: 'zen tokyo zoo', sans-serif;
+    background: rgba(0, 0, 0, 0.5) !important;
+    font-size: 15px;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--clr-neon);
+    border: var(--clr-neon) 0.125em solid;
+    padding: 0.25em 1em;
+    border-radius: 0.25em;
+    margin-left: 6px;
+    width: 130px;
+    height: 50px;
 
-.signup::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  box-shadow: 0 0 2em 0.5em var(--clr-neon);
-  opacity: 0;
-  background-color: var(--clr-neon);
-  z-index: -1;
-  transition: opacity 100ms linear;
-}
+    text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
 
-.signup:hover,
-.signup:focus {
-  color: var(--clr-bg);
-  text-shadow: none;
-}
+    box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
 
-.signup:hover::before,
-.signup:focus::before {
-  opacity: 1;
-}
-.signup:hover::after,
-.signup:focus::after {
-  opacity: 1;
-}
-.login {
-  text-transform: uppercase;
-  font-family: 'zen tokyo zoo', sans-serif;
-  background: rgba(0, 0, 0, 0.5) !important;
-  font-size: 15px;
-  display: inline-block;
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--clr-neon);
-  border: var(--clr-neon) 0.125em solid;
-  padding: 0.25em 1em;
-  border-radius: 0.25em;
-  margin-left: 6px;
-  width: 130px;
-  height: 50px;
+    position: relative;
+    }
 
-  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+    .login::before {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    background: var(--clr-neon);
+    top: 90%;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
-  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+    transform: perspective(3em) rotateX(40deg) scale(1, 0.35);
+    filter: blur(1em);
+    opacity: 0.7;
+    }
 
-  position: relative;
-}
+    .login::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 0 2em 0.5em var(--clr-neon);
+    opacity: 0;
+    background-color: var(--clr-neon);
+    z-index: -1;
+    transition: opacity 100ms linear;
+    }
 
-.login::before {
-  pointer-events: none;
-  content: "";
-  position: absolute;
-  background: var(--clr-neon);
-  top: 90%;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    .login:hover,
+    .login:focus {
+    color: var(--clr-bg);
+    text-shadow: none;
+    }
 
-  transform: perspective(3em) rotateX(40deg) scale(1, 0.35);
-  filter: blur(1em);
-  opacity: 0.7;
-}
-
-.login::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  box-shadow: 0 0 2em 0.5em var(--clr-neon);
-  opacity: 0;
-  background-color: var(--clr-neon);
-  z-index: -1;
-  transition: opacity 100ms linear;
-}
-
-.login:hover,
-.login:focus {
-  color: var(--clr-bg);
-  text-shadow: none;
-}
-
-.login:hover::before,
-.login:focus::before {
-  opacity: 1;
-}
-.login:hover::after,
-.login:focus::after {
-  opacity: 1;
-}
+    .login:hover::before,
+    .login:focus::before {
+    opacity: 1;
+    }
+    .login:hover::after,
+    .login:focus::after {
+    opacity: 1;
+    }
 
 
 h2 {
@@ -371,14 +374,12 @@ h2 {
 
 <body>
     <div class="box">
-        <p>LIMELIGHT</p>
+        <p>SHOPHEAR</p>
     </div>
 
-
-    <h2>Welcome back</h2>
     <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-6 sample">
         <form id="signupForm" method="POST" action="login.php">
     <div class="mb-3">
         <label for="signupUsername" class="form-label">Username:</label>
@@ -390,7 +391,7 @@ h2 {
     </div>
     <div class="mt-3 text-center d-flex flex-column align-items-center">
         <div class="btn-group mx-auto">
-            <button type="submit" name="submit"class="login" id="log">Login</button>
+            <button type="submit" class="login" id="log">Login</button>
         </div>
     </div>
     <div class="mt-3 text-center d-flex flex-column align-items-center">

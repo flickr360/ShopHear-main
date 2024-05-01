@@ -6,6 +6,7 @@ if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit;
 }
+header("Location: cart.php?user_id=" . urlencode($userId));
 ?>
 
 <!DOCTYPE html>

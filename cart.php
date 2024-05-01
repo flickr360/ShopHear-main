@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+header("Location: home.php?user_id=" . urlencode($userId));
 ?>
 
 <!DOCTYPE html>
