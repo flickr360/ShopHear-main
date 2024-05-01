@@ -13,6 +13,7 @@
         let lastCommandTime = 0; 
         let utteranceSpoken = false;
         let orderProcessed = false;
+        let transcriptWindow;
 
        
 
@@ -63,13 +64,41 @@
 
     function toggleRecognition() {
         initRecognition();
+
+        const transcriptContainer = document.getElementById('transcriptContainer');
+        const body = document.body;
+        const background = document.querySelector('.background'); 
+
+        function toggleTranscriptContainer() {
+            transcriptContainer.classList.toggle('active');
+            body.classList.toggle('transcript-active');
+            background.classList.toggle('blur-background');
+            if (transcriptContainer.classList.contains('active')) {
+                transcriptContainer.style.zIndex = '9999';
+            } else {
+                transcriptContainer.style.zIndex = 'initial';
+            }
+            if (!transcriptContainer.classList.contains('active')) {
+                updateTranscript('');
+            }
+        }
         
+        if (isListening) {
+            transcriptContainer.style.display = 'block';
+            toggleTranscriptContainer();
+        } else {
+            transcriptContainer.style.display = 'none';
+            toggleTranscriptContainer();
+        }
+        
+
         if (!isListening) {
             recognition.start();
             startButton.innerHTML = '<img src="assets/recording.gif" alt="Recording Icon">';
             isListening = true; 
             console.log('Speech recognition started.');
-            
+
+            toggleTranscript(true);
         } else {
             clearTimeout(recognitionTimeout); 
             recognition.stop();
@@ -77,7 +106,7 @@
             isListening = false; 
             console.log('Speech recognition stopped.');
             
-            recognition = null;
+            toggleTranscript(false);
         }
     }
 
@@ -103,11 +132,32 @@
                 return itemName;
         }
     }
+    function toggleTranscript(show) {
+        const transcriptContainer = document.getElementById('transcriptContainer');
+        if (show) {
+            transcriptContainer.style.display = 'block';
+        } else {
+            transcriptContainer.style.display = 'none';
+        }
+    }
+
+    function updateTranscript(transcript) {
+        const transcriptContent = document.getElementById('transcriptContent');
+        transcriptContent.textContent = transcript;
+    }
+
+    function openTranscriptWindow() {
+        transcriptWindow = window.open('', 'Transcript', 'width=400,height=300');
+    }
+
+    function displayTranscript(transcript) {
+        const transcriptContent = document.getElementById('transcriptContent');
+        transcriptContent.textContent = transcript;
+    }
 
     speechSynthesis.onvoiceschanged = () => {
         const voices = speechSynthesis.getVoices();
         if (voices.length > 0) {
-            // You can select a default voice here if needed
             console.log('Voices loaded.');
         } else {
             console.log('No voices available for speech synthesis.');
@@ -200,6 +250,11 @@
         
 
         function addToCart(voiceCommand) {
+
+            if (isListening) {
+                displayTranscript(voiceCommand);
+            }
+            
             const currentTime = new Date().getTime();
             const timeDifference = currentTime - lastCommandTime;
         
@@ -242,7 +297,7 @@
         
                     recognition.onresult = function handleResult(event) {
                         if (orderProcessed) {
-                            return; // If order has already been processed, exit early
+                            return; 
                         }
         
                         const transcript = event.results[event.results.length - 1][0].transcript.trim();
@@ -259,13 +314,14 @@
                             const totalPrice = quantity * price;
                             addToTransaction(itemName, quantity, totalPrice, userId);
                             console.log(`Added ${quantity} ${name} to cart. Total price: $${totalPrice.toFixed(2)}`);
-                            orderProcessed = true; // Set flag to true after processing the order
+                            orderProcessed = true; 
                         } else {
                             console.log('Invalid quantity, please try again');
                         }
                         selectedItem = null;
                         orderProcessed = false;
                     };
+                    
         
                 } else {
                     console.log('Item not found');
@@ -282,8 +338,6 @@
             }
         }
         
-        
-
         startButton.addEventListener('click', toggleRecognition);
 
         document.addEventListener('keydown', (event) => {

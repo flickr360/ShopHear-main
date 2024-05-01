@@ -1,0 +1,285 @@
+body {
+    padding-top: 70px; 
+    background-color: #AD88C6; 
+  }
+
+  /*navigation constant*/
+  .nav-purple {
+    background-color: purple;
+  }
+  .nav-purple .navbar-brand,
+  .nav-purple .nav-link {
+    color: white !important; 
+    font-weight: bold;
+    text-transform: capitalize;
+    
+  }
+  .nav-link:hover {
+    color: #ffc107 !important; 
+  }
+  .navbar-brand:hover{
+    color: #ffc107 !important;
+  }
+  .super-small-logo {
+    max-width: 40px; 
+    margin-right: 10px;
+}
+
+
+  /*homepage*/
+  .landing-page {
+    background-image: url('images/background.png');
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    color: white;
+    text-align: left; 
+    padding: 20% 5%; 
+    margin-top: -70px; 
+    height: 100vh;
+  }
+
+  .typewriter {
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    height: 160px;
+    font-size: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+  }
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: transparent }
+  }
+  .write{
+      font-family: 'Varela Round', sans-serif;
+      text-align: center;
+      font-size: 30px;
+      letter-spacing: 5px;
+  }
+ 
+  @media only screen and (max-width: 768px) {
+    .landing-page {
+        padding: 15% 5%; 
+    }
+
+    .typewriter {
+        font-size: 110px; 
+        height: 12vh; 
+        margin-top: 300px
+    }
+
+    .write {
+        margin-top: 30px;
+        font-size: 22px;
+        letter-spacing: 3px; 
+    }
+}
+
+    @media only screen and (max-width: 480px) {
+        .landing-page {
+            padding: 10% 5%; 
+        }
+
+        .typewriter {
+            font-size: 50px; 
+            height: 7vh; 
+        }
+
+        .write {
+            font-size: 18px; 
+            letter-spacing: 2px; 
+        }
+    }
+      .blue-section {
+        background-color: #3498db;
+        color: #fff;
+        padding: 50px 0;
+        text-align: center;
+      }
+      .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+      .video-background video {
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: cover;
+      }
+      .content {
+        position: relative;
+        z-index: 1;
+        padding: 50px;
+        color: white;
+      }
+      .content h1{
+        letter-spacing: 3px;
+        font-size: 'Varela Round', sans-serif;
+        text-align: center;
+      }
+  
+      .yellow-sectionn {
+        background-color: #F9E897;
+        color: #fff;
+        padding: 100px 0;
+        text-align: center;
+      }
+      .yellow-text{
+        font-family: 'Varela Round', sans-serif;
+        font-weight: lighter;
+        letter-spacing: 3px;
+        color: #000;
+        font-size: 18px;
+        text-align: left;
+      }
+      @media only screen and (max-width: 768px) {
+        .yellow-text {
+            font-size: 14px; 
+            letter-spacing: 2px; 
+        }
+      }
+  
+      @media only screen and (max-width: 480px) {
+          .yellow-text {
+              font-size: 14px; 
+              letter-spacing: 1px; 
+          }
+      }
+ 
+
+  /*product section*/
+  .product-card {
+      background-color: #b442c1; 
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      border: 20px solid #b442c1; 
+    }
+
+  .product-card img {
+      border-radius: 10px;
+      max-height: 300px; 
+      object-fit: cover;
+    }
+
+  .card-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffffff; 
+      text-align: center; 
+  }
+  .card-text {
+      color: #ffffff; 
+      text-align: center; 
+    }
+
+  .product-card .card-body {
+        padding: 20px;
+    }
+    .btn-primary {
+      background-color: #ffc107; 
+      border-color: #ffc107; 
+      color: #fff; 
+      transition: background-color 0.2s ease;
+      display: block; 
+      margin: 0 auto; 
+    }
+
+    .btn-primary:hover {
+      background-color: #f79dda;
+      border-color: #f79dda; 
+    }
+
+    /*about section*/
+    body{
+      background-image: url(about-bg.png);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    .invisible-bg {
+      background-color: transparent !important; 
+      border: none;
+      box-shadow: none;
+      margin-top: 60px; 
+      margin-bottom: 100px; 
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 30px; 
+    }
+
+    .section-title h2 {
+      font-size: 60px;
+      font-weight: bold;
+      color: #ffffff; 
+    }
+
+  .section-content {
+    background-color: #F9BCDD;
+    padding: 30px; 
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .section-content h4{
+    color: #332941;
+  }
+  .section-content p {
+    letter-spacing: 2px;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .team-member {
+    margin-bottom: 30px;
+    text-align: center; 
+  }
+
+  .team-member img {
+    max-width: 100%;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+
+  /*footer constant*/
+  .footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    bottom: 0; 
+    width: 100%; 
+  }
+  .footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .footer-content p {
+    margin: 0;
+  }
+  .social-icons {
+    margin-left: 10px;
+  }
+  .social-icons a {
+    color: white;
+    margin-right: 10px;
+  }
+  

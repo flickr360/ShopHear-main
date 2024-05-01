@@ -1,55 +1,22 @@
-<?php
-session_start();
-
-
-include("constant.php");
-
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-  $loginUsername = $_POST['loginUsername'];
-  $loginPassword = $_POST['loginPassword'];
-
-  if (!empty($loginUsername) && !empty($loginPassword)) {
-      $query = "SELECT * FROM users WHERE username = ?";
-      $stmt = $conn->prepare($query);
-      $stmt->bind_param("s", $loginUsername);
-      $stmt->execute();
-      $result = $stmt->get_result();
-
-      if ($result->num_rows == 1) {
-          // Username exists, now check if the password matches
-          $row = $result->fetch_assoc();
-          $hashedPassword = $row['password'];
-          $userId = $row['username'];
-
-          if (password_verify($loginPassword, $hashedPassword)) {
-          $_SESSION['login'] = true;
-          $_SESSION['username'] = $row['username']; // Set the username in the session
-          $_SESSION['user_id'] = $row['id']; // Assuming 'id' is the column name for the user ID in your database
-
-          } else {
-              echo '<script>alert("Incorrect password");</script>';
-          }
-      } else {
-          echo '<script>alert("Username not found");</script>';
-      }
-  } else {
-      echo '<script>alert("Please enter valid information");</script>';
-  }
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Landing Page</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
   <style>
+    body{
+      font-family: "Outfit", sans-serif;
+    }
     .landing-page {
     background-image: url('images/background.png');
     background-size: cover; 
@@ -58,39 +25,96 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     color: white;
     text-align: left; 
     padding: 20% 5%; 
-    margin-top: -70px; 
     height: 100vh;
   }
+
+  .container{
+        }
+        #cart-button{
+            font-size: 30px;
+        }
+        .navbar{
+            background-color: rgb(45, 27, 84);
+            color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+        }
+        .brandname{
+            float: right;
+            font-size: 30px;
+            margin-left: 10px;
+            margin-top: 3px;
+            color: #ffffff;
+        }
+        #cart-button{
+            font-size: 40px;
+        }
+        #cart{
+            margin-left: 10px;
+            font-size: 40px;
+        }
+        #glasses{
+            margin-left: 10px;
+            font-size: 40px;
+        }
+        #home{
+          margin-left: 10px;
+          font-size: 40px;
+        }
+        #logout{
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 40px;
+        }
+        #about{
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 40px;
+        }
+        .bi {
+            margin-left: 10px; 
+            margin-right: 10px; 
+        }
+        .navbar-brand {
+            margin-left: 20px; 
+        }
+        .brandname{
+            float: right;
+            font-size: 30px;
+            margin-left: 10px;
+            margin-top: 3px;
+            color: #ffffff;
+        }
+        
+  
   </style>
 
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top nav-purple">
-    <div class="container-fluid">
-    <img src="images/shophearlogo.gif" alt="Logo" class="navbar-logo super-small-logo">
-      <a class="navbar-brand" href="#">ShopHear</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-     
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="index" href="#">Product</a>
-          </li>
-          <li class="nav-item">
-          <a class="nav-link" id="cart" href="#">Cart</a>
-          </li>
-          <li class="nav-item">
-          <a class="nav-link" id="about" href="#">About</a>
-          </li>
-        </ul>
-      </div>
+<nav class="navbar navbar-light">
+    <a class="navbar-brand" href="#">
+        <img src="assets/logo.png" width="50" height="50">
+        <h1 class="brandname">ShopHear</h1>
+    </a>
+    <div class="ml-auto">
+    <a href="home.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="home">
+            <i class="bi bi-house-fill"></i>
+        </a>
+        <a href="index.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="glasses">
+            <i class="bi bi-emoji-sunglasses-fill" id="glasses-button"></i>
+        </a>
+        <a href="cart.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="cart">
+            <i class="bi bi-bag-fill" id="cart-button"></i>
+        </a> 
+        <a href="about.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="about">
+            <i class="bi bi-info-square-fill" id="about-button"></i>
+        </a>
+        <a href="logout.php">
+            <i class="bi bi-box-arrow-left" id="logout"></i>
+        </a>
     </div>
-  </nav>
+</nav>
 
   <div class="landing-page">
     <div class="container">
@@ -133,24 +157,58 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+  <script>
+  $(document).ready(function(){
+    var urlParams = new URLSearchParams(window.location.search);
+    var userId = urlParams.get('user_id');
+    console.log("User ID:", userId);
+
+    function goToHome() {
+        console.log("Clicked home");
+        window.location.href = "home.php?user_id=" + userId;
+    }
+
+    function goToIndex() {
+        console.log("Clicked index");
+        window.location.href = "index.php?user_id=" + userId;
+    }
+
+    function goToCart() {
+        console.log("Clicked cart"); // Debugging line
+        window.location.href = "cart.php?user_id=" + userId;
+    }
+
+    function goToAbout() {
+        console.log("Clicked about");
+        window.location.href = "about.php?user_id=" + userId;
+    }
+
+    $("#home").click(goToHome);
+    $("#index").click(goToIndex);
+    $("#cart").click(goToCart);
+    $("#about").click(goToAbout);
+
+    $(document).on('keydown', function(e) {
+        if (!$(e.target).is('input, textarea')) {
+            switch(e.key.toLowerCase()) {
+                case 'h':
+                    goToHome();
+                    break;
+                case 'p':
+                    goToIndex();
+                    break;
+                case 'c':
+                    goToCart();
+                    break;
+                case 'a':
+                    goToAbout();
+                    break;
+                default:
+            }
+        }
+    });
+});
+
+    </script>
 </body>
 </html>
-<script>
-        $(document).ready(function(){
-            var urlParams = new URLSearchParams(window.location.search);
-            var userId = urlParams.get('user_id');
-
-
-            $("#index").click(function(){
-                window.location.href = "index.php?user_id=" +userId;
-            });
-
-            $("#cart").click(function(){
-                window.location.href = "cart.php?user_id=" +userId;
-            });
-
-            $("#about").click(function(){
-                window.location.href = "about.php?user_id=" +userId;
-            });
-        });
-    </script>

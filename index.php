@@ -1,14 +1,3 @@
-<?php
-session_start();
-include("constant.php");
-
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    exit;
-}
-header("Location: cart.php?user_id=" . urlencode($userId));
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,8 +37,6 @@ header("Location: cart.php?user_id=" . urlencode($userId));
         }
         .navbar-brand {
             margin-left: 20px; 
-        }
-        .container{
         }
         #cart-button{
             font-size: 30px;
@@ -144,7 +131,7 @@ header("Location: cart.php?user_id=" . urlencode($userId));
             position: fixed;
             bottom: 20px; /* Adjust as needed */
             right: 20px; /* Adjust as needed */
-            z-index: 9999;
+            z-index: 3;
         }
         
         .indicator img {
@@ -227,25 +214,112 @@ header("Location: cart.php?user_id=" . urlencode($userId));
             animation: pulse 1.5s infinite; 
         }
     }
+        #cart-button{
+            font-size: 40px;
+        }
+        #cart{
+            margin-left: 10px;
+            font-size: 40px;
+        }
+        #glasses{
+            margin-left: 10px;
+            font-size: 40px;
+        }
+        #about-button{
+            font-size: 40px;
+        }
+        #about{
+            margin-left: 10px;
+            font-size: 40px;
+        }
+        #home{
+          margin-left: 10px;
+          font-size: 40px;
+        }
+        #logout{
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 40px;
+        }
+        .bi {
+            margin-left: 10px; 
+            margin-right: 10px; 
+        }
+        .navbar-brand {
+            margin-left: 20px; 
+        }
+        .brandname{
+            float: right;
+            font-size: 30px;
+            margin-left: 10px;
+            margin-top: 3px;
+            color: #ffffff;
+        }
+        .transcript-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            text-align: center;
+            font-size: 80px;
+            font-weight: bold;
+            z-index: 99999;
+        }
+
+        .transcript-container.active {
+            display: flex;
+        }
+
+        .background.blur-background {
+            filter: blur(10px); 
+            filter: brightness(10%);
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+
     </style>
 </head>
+
 <body>
 
-<nav class="navbar navbar-light">
-  <a class="navbar-brand" href="#">
-    <img src="assets/logo.png" width="50" height="50">
-    <h1 class="brandname">ShopHear</h1>
-  </a>
-  <div class="cart-container">
-        <a id="cart">
+    <div id="transcriptContainer" class="transcript-container">
+        <div id="transcriptContent"></div>
+    </div>
+
+    <nav class="navbar navbar-light">
+    <a class="navbar-brand" href="#">
+        <img src="assets/logo.png" width="50" height="50">
+        <h1 class="brandname">ShopHear</h1>
+    </a>
+    <div class="ml-auto">
+    <a href="home.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="home">
+            <i class="bi bi-house-fill"></i>
+        </a>
+        <a href="index.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="glasses">
+            <i class="bi bi-emoji-sunglasses-fill" id="glasses-button"></i>
+        </a>
+        <a href="cart.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="cart">
             <i class="bi bi-bag-fill" id="cart-button"></i>
-        </a>    
-</div>
+        </a> 
+        <a href="about.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="about">
+            <i class="bi bi-info-square-fill" id="about-button"></i>
+        </a>
+        <a href="logout.php">
+            <i class="bi bi-box-arrow-left" id="logout"></i>
+        </a>
+    </div>
 </nav>
 
     <button class="indicator" id="startButton">
         <img src="assets/metal ball.png" alt="Recording Icon">
     </button>
+
+<div class="background">
 
     <div class="greetings">
     <p id="instruction" class="mb-0">Press Spacebar and say "add <strong>item</strong> to cart".</hp> 
@@ -263,7 +337,7 @@ header("Location: cart.php?user_id=" . urlencode($userId));
                         <p>₱50</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_retro" class="quantity" class="quantity form-control">
+                            <input type="number" id="quantity_retro" class="quantity" class="quantity form-control" min="1">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('retro', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
@@ -277,7 +351,7 @@ header("Location: cart.php?user_id=" . urlencode($userId));
                         <p>₱100</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_trendy" class="quantity" class="quantity form-control">
+                            <input type="number" id="quantity_trendy" class="quantity" class="quantity form-control" min="1">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('trendy', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
@@ -291,7 +365,7 @@ header("Location: cart.php?user_id=" . urlencode($userId));
                         <p>₱150</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_urban" class="quantity" class="quantity form-control">
+                            <input type="number" id="quantity_urban" class="quantity" class="quantity form-control" min="1">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('urban', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
 
@@ -306,7 +380,7 @@ header("Location: cart.php?user_id=" . urlencode($userId));
                         <p>₱200</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_funky" class="quantity" class="quantity form-control">
+                            <input type="number" id="quantity_funky" class="quantity" class="quantity form-control" min="1">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('funky', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
@@ -323,7 +397,7 @@ header("Location: cart.php?user_id=" . urlencode($userId));
                         <p>₱50</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_sharp" class="quantity" class="quantity form-control">
+                            <input type="number" id="quantity_sharp" class="quantity" class="quantity form-control" min="1">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('sharp', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
@@ -337,7 +411,7 @@ header("Location: cart.php?user_id=" . urlencode($userId));
                         <p>₱100</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_iconic" class="quantity" class="quantity form-control">
+                            <input type="number" id="quantity_iconic" class="quantity" class="quantity form-control" min="1">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('iconic', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
@@ -351,7 +425,7 @@ header("Location: cart.php?user_id=" . urlencode($userId));
                         <p>₱150</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_fashion" class="quantity" class="quantity form-control">
+                            <input type="number" id="quantity_fashion" class="quantity" class="quantity form-control" min="1">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('fashion', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
@@ -365,7 +439,7 @@ header("Location: cart.php?user_id=" . urlencode($userId));
                         <p>₱200</p>
                         <div class="quantity-selector">
                             <label>Quantity:</label>
-                            <input type="number" id="quantity_classy" class="quantity" class="quantity form-control">
+                            <input type="number" id="quantity_classy" class="quantity" class="quantity form-control" min="1">
                         </div>
                         <button class="cartbtn" onclick="addToCartButton('classy', '<?php echo $_GET['user_id']; ?>')">Add to Cart</button>
                     </div>
@@ -373,18 +447,60 @@ header("Location: cart.php?user_id=" . urlencode($userId));
             </div>
         </div>
     </div>
+    </div>
 
     <script src="script.js"></script>
     <script>
         $(document).ready(function(){
-            var urlParams = new URLSearchParams(window.location.search);
-            var userId = urlParams.get('user_id');
+    var urlParams = new URLSearchParams(window.location.search);
+    var userId = urlParams.get('user_id');
+    console.log("User ID:", userId);
 
+    function goToHome() {
+        console.log("Clicked home");
+        window.location.href = "home.php?user_id=" + userId;
+    }
 
-            $("#cart").click(function(){
-                window.location.href = "cart.php?user_id=" +userId;
-            });
-        });
+    function goToIndex() {
+        console.log("Clicked index");
+        window.location.href = "index.php?user_id=" + userId;
+    }
+
+    function goToCart() {
+        console.log("Clicked cart"); // Debugging line
+        window.location.href = "cart.php?user_id=" + userId;
+    }
+
+    function goToAbout() {
+        console.log("Clicked about");
+        window.location.href = "about.php?user_id=" + userId;
+    }
+
+    $("#home").click(goToHome);
+    $("#index").click(goToIndex);
+    $("#cart").click(goToCart);
+    $("#about").click(goToAbout);
+
+    $(document).on('keydown', function(e) {
+        if (!$(e.target).is('input, textarea')) {
+            switch(e.key.toLowerCase()) {
+                case 'h':
+                    goToHome();
+                    break;
+                case 'p':
+                    goToIndex();
+                    break;
+                case 'c':
+                    goToCart();
+                    break;
+                case 'a':
+                    goToAbout();
+                    break;
+                default:
+            }
+        }
+    });
+});
     </script>
 </body>
 </html>

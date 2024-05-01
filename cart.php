@@ -1,9 +1,3 @@
-<?php
-session_start();
-
-header("Location: home.php?user_id=" . urlencode($userId));
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,10 +36,10 @@ header("Location: home.php?user_id=" . urlencode($userId));
             border-collapse: collapse;
             border-radius: 10px;
             overflow: hidden;
-            background-color: rgba(255, 255, 255, 0.5); /* Add transparency */
-            backdrop-filter: blur(10px); /* Add blur effect */
-            border-radius: 15px; /* Add border radius */
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Add shadow */
+            background-color: rgba(255, 255, 255, 0.5); 
+            backdrop-filter: blur(10px); 
+            border-radius: 15px; 
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); 
         }
         th, td {
             border-bottom: 1px solid #dee2e6;
@@ -53,9 +47,9 @@ header("Location: home.php?user_id=" . urlencode($userId));
             font-size: 20px;
         }
         th {
-            background-color: rgba(255, 255, 255, 0.5); /* Add transparency */
-            backdrop-filter: blur(10px); /* Add blur effect */
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Add shadow */
+            background-color: rgba(255, 255, 255, 0.5); 
+            backdrop-filter: blur(10px); 
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); 
             align-items: center;
             justify-content: center;
             text-align: center;
@@ -68,6 +62,7 @@ header("Location: home.php?user_id=" . urlencode($userId));
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin: 3px;
         }
         .edit-btn:hover, .delete-btn:hover, .order-btn:hover {
             background-color: #0056b3;
@@ -99,9 +94,16 @@ header("Location: home.php?user_id=" . urlencode($userId));
             margin-left: 20px; 
         }
         #cart-button{
-            font-size: 30px;
+            font-size: 40px;
         }
         #glasses-button{
+            font-size: 40px;
+        }
+        #about-button{
+            font-size: 40px;
+        }
+        #about{
+            margin-left: 10px;
             font-size: 40px;
         }
         .navbar{
@@ -118,6 +120,9 @@ header("Location: home.php?user_id=" . urlencode($userId));
             margin-top: 3px;
             color: #ffffff;
         }
+        .cart{
+            color: #ffffff;
+        }
         .cartlb{
             color: #ffffff;
         }
@@ -130,7 +135,6 @@ header("Location: home.php?user_id=" . urlencode($userId));
         margin-right: 10px; 
         }
         .edit-btn,
-        .delete-btn,
         .order-btn {
             padding: 8px 16px;
             background-color: #642a94;
@@ -140,11 +144,37 @@ header("Location: home.php?user_id=" . urlencode($userId));
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
         .edit-btn:hover,
-        .delete-btn:hover,
         .order-btn:hover {
-            background-color: #240d35
+            background-color: #240d35;
+        }
+        .delete-btn{
+            padding: 8px 16px;
+            background-color: #CD2E2E;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .delete-btn:hover{
+            background-color: #952424;
+        }
+        #cart{
+            margin-left: 10px;
+        }
+        #glasses{
+            margin-left: 10px;
+            font-size: 40px;
+        }
+        #home{
+          margin-left: 10px;
+          font-size: 40px;
+        }
+        #logout{
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 40px;
         }
 
     </style>
@@ -157,11 +187,20 @@ header("Location: home.php?user_id=" . urlencode($userId));
         <h1 class="brandname">ShopHear</h1>
     </a>
     <div class="ml-auto">
-        <a href="index.php?user_id=<?php echo $_GET['user_id']; ?> ">
-            <i class="bi bi-eyeglasses" id="glasses-button"></i>
+    <a href="home.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="home">
+            <i class="bi bi-house-fill"></i>
+        </a>
+        <a href="index.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="glasses">
+            <i class="bi bi-emoji-sunglasses-fill" id="glasses-button"></i>
+        </a>
+        <a href="cart.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="cart">
+            <i class="bi bi-bag-fill" id="cart-button"></i>
+        </a> 
+        <a href="about.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="about">
+            <i class="bi bi-info-square-fill" id="about-button"></i>
         </a>
         <a href="logout.php">
-            <button>logout</button>
+            <i class="bi bi-box-arrow-left" id="logout"></i>
         </a>
     </div>
 </nav>
@@ -183,18 +222,12 @@ header("Location: home.php?user_id=" . urlencode($userId));
             </thead>
             <tbody>
             <?php
-                // Include necessary files and establish database connection
 
                 include("constant.php");
 
                 $link = mysqli_connect("localhost", "root", "", "hci");
                 if ($link === false) {
                     die("ERROR: Could not connect. " . mysqli_connect_error());
-                }
-
-                if (!isset($_SESSION['username'])) {
-                    header('Location: login.php');
-                    exit;
                 }
 
                 $totalBill = 0;
@@ -204,9 +237,7 @@ header("Location: home.php?user_id=" . urlencode($userId));
                     $sql = "SELECT * FROM transaction WHERE user_id = '$userId'";
                     $result = mysqli_query($link, $sql);
                 if ($result) {
-                    // Check if there are rows returned
                     if (mysqli_num_rows($result) > 0) {
-                        // Output data of each row
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo '<tr>';
                             echo '<td><input type="checkbox" class="order-checkbox"></td>';
@@ -232,16 +263,14 @@ header("Location: home.php?user_id=" . urlencode($userId));
                 echo '<td colspan="4">Total Bill:</td>';
                 echo '<td id="totalBillAmount" colspan="1">' . $totalBill . '</td>';
                 echo '<td>';
-                echo '<button class="order-btn" id="orderNowBtn">Order Now</button>';
-                echo '<button onclick="deleteSelectedItems()">Delete Selected Items</button>';
+                echo '<button class="order-btn" id="orderNowBtn" >Order Now</button>';
+                echo '<button class="delete-btn" onclick="deleteSelectedItems()">Delete Selected Items</button>';
                 echo '</td>';
                 echo '</tr>';
 
                 mysqli_close($link);
                 }
 
-                // Attempt select query execution
-                
                 ?>
             </tbody>
         </table>
@@ -250,28 +279,75 @@ header("Location: home.php?user_id=" . urlencode($userId));
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-            function deleteSelectedItems() {
+            $(document).ready(function(){
+        var urlParams = new URLSearchParams(window.location.search);
+        var userId = urlParams.get('user_id');
+        console.log("User ID:", userId);
+
+        function goToHome() {
+            console.log("Clicked home");
+            window.location.href = "home.php?user_id=" + userId;
+        }
+
+        function goToIndex() {
+            console.log("Clicked index");
+            window.location.href = "index.php?user_id=" + userId;
+        }
+
+        function goToCart() {
+            console.log("Clicked cart");
+            window.location.href = "cart.php?user_id=" + userId;
+        }
+
+        function goToAbout() {
+            console.log("Clicked about");
+            window.location.href = "about.php?user_id=" + userId;
+        }
+
+        $("#home").click(goToHome);
+        $("#glasses").click(goToIndex);
+        $("#cart").click(goToCart);
+        $("#about").click(goToAbout);
+
+        $(document).on('keydown', function(e) {
+            if (!$(e.target).is('input, textarea')) {
+                switch(e.key.toLowerCase()) {
+                    case 'h':
+                        goToHome();
+                        break;
+                    case 'p':
+                        goToIndex();
+                        break;
+                    case 'c':
+                        goToCart();
+                        break;
+                    case 'a':
+                        goToAbout();
+                        break;
+                    default:
+                }
+            }
+        });
+    });
+
+    function deleteSelectedItems() {
         var selectedItems = [];
         $('.order-checkbox:checked').each(function() {
             selectedItems.push($(this).closest('tr').find('.delete-btn').data('id'));
         });
 
-        // Check if no item was selected
         if (selectedItems.length === 0) {
             alert('No item was selected.');
-            return; // Stop further execution
+            return; 
         }
 
-        // Confirm deletion
         if (confirm('Are you sure you want to delete all selected items?')) {
-            // Loop through each selected item ID and initiate AJAX request to delete it
             selectedItems.forEach(function(itemId) {
                 $.ajax({
                     url: 'delete-item.php',
                     type: 'POST',
                     data: { id: itemId },
                     success: function(response) {
-                        // Reload the page after successful deletion
                         location.reload();
                     },
                     error: function(xhr, status, error) {
@@ -283,62 +359,55 @@ header("Location: home.php?user_id=" . urlencode($userId));
         }
     }
 
-            $('.delete-btn').click(function(){
-                var itemId = $(this).data('id');
-                if(confirm('Are you sure you want to delete this item?')){
-                    $.ajax({
-                        url: 'delete-item.php',
-                        type: 'POST',
-                        data: { id: itemId },
-                        success: function(response){
-                            location.reload();
-                        },
-                        error: function(xhr, status, error){
-                            console.error('Error:', error);
-                            alert('An error occurred while deleting the item. Please try again later.');
-                        }
-                    });
+    $('.delete-btn').click(function(){
+        var itemId = $(this).data('id');
+        if(confirm('Are you sure you want to delete this item?')){
+            $.ajax({
+                url: 'delete-item.php',
+                type: 'POST',
+                data: { id: itemId },
+                success: function(response){
+                    location.reload();
+                },
+                error: function(xhr, status, error){
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the item. Please try again later.');
                 }
             });
-
-            $(document).ready(function() {
-    // Function to update the total bill amount
-    function updateTotalBill() {
-        var totalBill = 0;
-        $('.order-checkbox:checked').each(function() {
-            var itemPrice = parseFloat($(this).closest('tr').find('td:eq(4)').text());
-            totalBill += itemPrice;
-        });
-        $('#totalBillAmount').text(totalBill.toFixed(2)); // Update the total bill amount
-        // Update totalBill in localStorage
-        localStorage.setItem('totalBill', totalBill);
-    }
-
-    // Initial call to update total bill amount
-    updateTotalBill();
-
-    $('.order-checkbox').change(function() {
-        updateTotalBill(); // Call the function to update the total bill amount
+        }
     });
 
-    $('#orderNowBtn').click(function() {
-        var selectedItems = [];
-        $('.order-checkbox:checked').each(function() {
-            selectedItems.push($(this).closest('tr').find('.edit-btn').data('id'));
-        });
-
-        // Check if no item was selected
-        if (selectedItems.length === 0) {
-            alert('No item was selected.');
-            return; // Stop further execution
+    $(document).ready(function() {
+        function updateTotalBill() {
+            var totalBill = 0;
+            $('.order-checkbox:checked').each(function() {
+                var itemPrice = parseFloat($(this).closest('tr').find('td:eq(4)').text());
+                totalBill += itemPrice;
+            });
+            $('#totalBillAmount').text(totalBill.toFixed(2)); 
+            localStorage.setItem('totalBill', totalBill);
         }
 
-        window.location.href = 'order.php?items=' + selectedItems.join(',');
+        updateTotalBill();
+
+        $('.order-checkbox').change(function() {
+            updateTotalBill(); 
+        });
+
+        $('#orderNowBtn').click(function() {
+            var selectedItems = [];
+            $('.order-checkbox:checked').each(function() {
+                selectedItems.push($(this).closest('tr').find('.edit-btn').data('id'));
+            });
+
+            if (selectedItems.length === 0) {
+                alert('No item was selected.');
+                return;
+            }
+
+            window.location.href = "order.php?user_id=" + userId;
+        });
     });
-});
-
-
-
     </script>
 </body>
 </html>

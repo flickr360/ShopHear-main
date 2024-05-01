@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $_SESSION['username'] = $row['username']; 
             $_SESSION['user_id'] = $row['id']; 
 
-header("Location: home.php?user_id=$userId");
+            header("Location: home.php?user_id=$userId");
 
             } else {
                 echo '<script>alert("Incorrect password");</script>';
@@ -49,11 +49,12 @@ header("Location: home.php?user_id=$userId");
     <title>Login</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Varela+Round&display=swap');
-
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Varela+Round&family=Zen+Tokyo+Zoo&display=swap');
 
         body {
             background-color: #AD88C6;
@@ -61,13 +62,10 @@ header("Location: home.php?user_id=$userId");
             background-size: cover; 
             background-repeat: no-repeat;
             background-attachment: fixed; 
-            margin: 0;
-            padding: 0;
+            font-family: "Outfit", sans-serif;
         }
 
         .mb-3 {
-            color:#2e1142;
-            font-family: 'Varela Round', sans-serif;
             font-size: 18px;
             font-weight: bold;
             text-transform: uppercase;
@@ -78,58 +76,19 @@ header("Location: home.php?user_id=$userId");
             margin-top: 60px;
             display: grid;
             place-items: center;
-            font-family: 'zen tokyo zoo', sans-serif;
             z-index: -1;
         }
         .box p {
             font-size: 180px; /* Increased font size */
             font-weight: bold; /* Added bold font weight */
             text-transform: uppercase;
-            color: #bb7781;
-            text-shadow: 0 0 0 transparent,
-                        0 0 10px #240046,
-                        0 0 20px rgba(36, 0, 70, 0.5),
-                        0 0 40px #240046,
-                        0 0 100px #240046,
-                        0 0 200px #240046,
-                        0 0 300px #240046,
-                        0 0 500px #240046,
-                        0 0 1000px #240046;
-            animation: animate 5s infinite alternate;
+            color: rgba(61, 21, 152, 0.8);
         }
 
-        @keyframes animate {
-            40% {
-                opacity: 0.1;
-            }
-            42% {
-                opacity: 0.8;
-            }
-            43% {
-                opacity: 1;
-            }
-            45% {
-                opacity: 1;
-            }
-            40% {
-                opacity: 1;
-            }
-        }
-
-        input {
-            background: rgba(0, 0, 0, 0.5) !important;
-            color: #FAF9F6 !important; /* Change to the desired text color */
-            border: 1px solid #FAF9F6 !important;
-            padding: 10px !important;
-            margin: 5px !important;
-        }
-
-        button {}
 
         header {
             margin: 0;
             padding: 0;
-            background-color: transparent; /* Set background color to transparent */
         }
         h2{
             text-align: center;
@@ -161,11 +120,7 @@ header("Location: home.php?user_id=$userId");
         .col-md-6 {
         text-align: center;
         margin: 50px; /* Add margin to the form container */
-        }   
-        .container mt-5{
-            margin-top: 20px;
         }
-
         #signupForm {
             text-align: left; /* Align the text to the left within the form */
             max-width: 350px; /* Set a maximum width for the form if needed */
@@ -180,135 +135,155 @@ header("Location: home.php?user_id=$userId");
     --clr-neon: hsl(346, 100%, 50%);
     --clr-bg: hsl(0, 0%, 0%);
     }
-    .signup {
-    text-transform: uppercase;
-    font-family: 'zen tokyo zoo', sans-serif;
-    background: #37062b;
-    font-size: 15px;
-    display: inline-block;
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--clr-neon);
-    border: var(--clr-neon) 0.125em solid;
-    padding: 0.25em 1em;
-    border-radius: 0.25em;
-    margin-left: 11px;
-    width: 130px;
-    height: 50px;
-    text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
-    position: relative;
-    }
+    .sign {
+            position: relative;
+            background: none;
+            color: #303030;
+            font-size: 4rem;
+            display: inline-block;
+            font-family: 'Varela Round', sans-serif;
+        }
 
-    .signup::before {
-    pointer-events: none;
-    content: "";
-    position: absolute;
-    background: var(--clr-neon);
-    top: 90%;
-    left: 0;
-    width: 100%;
-    height: 100%;
+        .col-md-6 {
+            text-align: center;
+        }
 
-    transform: perspective(3em) rotateX(40deg) scale(1, 0.35);
-    filter: blur(1em);
-    opacity: 0.7;
-    }
+        #signupForm {
+            text-align: left;
+            max-width: 350px;
+            margin: auto;
+            margin-top: -50px;
+        }
 
-    .signup::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    box-shadow: 0 0 2em 0.5em var(--clr-neon);
-    opacity: 0;
-    background-color: var(--clr-neon);
-    z-index: -1;
-    transition: opacity 100ms linear;
-    }
+        #signupForm label {
+            color: #FAF9F6;
+        }
+        :root {
+            --clr-neon: #C780FA;
+            --clr-bg: hsl(0, 0%, 0%);
+        }
+        .signup {
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: #7F669D;
+            font-size: 15px;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            color: #F3BCC8;
+            border: #400E32;
+            padding: 0.25em 1em;
+            border-radius: 0.25em;
+            margin-left: 11px;
+            width: 130px;
+            height: 50px;
+            text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+            position: relative;
+        }
 
-    .signup:hover,
-    .signup:focus {
-    color: var(--clr-bg);
-    text-shadow: none;
-    }
+        .signup::before {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            background: var(--clr-neon);
+            top: 90%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: perspective(3em) rotateX(40deg) scale(1, 0.35);
+            filter: blur(1em);
+            opacity: 0.7;
+        }
 
-    .signup:hover::before,
-    .signup:focus::before {
-    opacity: 1;
-    }
-    .signup:hover::after,
-    .signup:focus::after {
-    opacity: 1;
-    }
+        .signup::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            box-shadow: 0 0 2em 0.5em var(--clr-neon);
+            opacity: 0;
+            background-color: #7F669D;
+            z-index: -1;
+            transition: opacity 100ms linear;
+        }
+
+        .signup:hover,
+        .signup:focus {
+            color: #fff;
+            text-shadow: none;
+        }
+
+        .signup:hover::before,
+        .signup:focus::before {
+            opacity: 1;
+        }
+        .signup:hover::after,
+        .signup:focus::after {
+            opacity: 1;
+        }
     .login {
-    text-transform: uppercase;
-    font-family: 'zen tokyo zoo', sans-serif;
-    background: rgba(0, 0, 0, 0.5) !important;
-    font-size: 15px;
-    display: inline-block;
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--clr-neon);
-    border: var(--clr-neon) 0.125em solid;
-    padding: 0.25em 1em;
-    border-radius: 0.25em;
-    margin-left: 6px;
-    width: 130px;
-    height: 50px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: #7F669D;
+            font-size: 15px;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            color: #F3BCC8;
+            border: #400E32;
+            padding: 0.25em 1em;
+            border-radius: 0.25em;
+            margin-left: 6px;
+            width: 130px;
+            height: 50px;
+            text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+            position: relative;
+        }
 
-    text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+        .login::before {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            background: var(--clr-neon);
+            top: 90%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: perspective(3em) rotateX(40deg) scale(1, 0.35);
+            filter: blur(1em);
+            opacity: 0.7;
+        }
 
-    box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+        .login::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            box-shadow: 0 0 2em 0.5em var(--clr-neon);
+            opacity: 0;
+            background-color: #7F669D;
+            z-index: -1;
+            transition: opacity 100ms linear;
+        }
 
-    position: relative;
-    }
+        .login:hover,
+        .login:focus {
+            color: #fff;
+            text-shadow: none;
+        }
 
-    .login::before {
-    pointer-events: none;
-    content: "";
-    position: absolute;
-    background: var(--clr-neon);
-    top: 90%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    transform: perspective(3em) rotateX(40deg) scale(1, 0.35);
-    filter: blur(1em);
-    opacity: 0.7;
-    }
-
-    .login::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    box-shadow: 0 0 2em 0.5em var(--clr-neon);
-    opacity: 0;
-    background-color: var(--clr-neon);
-    z-index: -1;
-    transition: opacity 100ms linear;
-    }
-
-    .login:hover,
-    .login:focus {
-    color: var(--clr-bg);
-    text-shadow: none;
-    }
-
-    .login:hover::before,
-    .login:focus::before {
-    opacity: 1;
-    }
-    .login:hover::after,
-    .login:focus::after {
-    opacity: 1;
-    }
-
+        .login:hover::before,
+        .login:focus::before {
+            opacity: 1;
+        }
+        .login:hover::after,
+        .login:focus::after {
+            opacity: 1;
+        }
 
 h2 {
             margin-top: -30px;
@@ -335,24 +310,6 @@ h2 {
                 animation: animate 3s infinite alternate;
         }
 
-        @keyframes animate{
-            40%{
-                opacity: 1;
-            }
-            42%{
-                opacity: 0.8;
-            }
-            43%{
-                opacity: 1;
-            }
-            45%{
-                opacity: 1;
-            }
-            40%{
-                opacity: 1;
-            }
-        }
-
 @media (max-width: 768px) {
     .box {
         margin-top: 30px;
@@ -377,7 +334,7 @@ h2 {
         <p>SHOPHEAR</p>
     </div>
 
-    <div class="container mt-5">
+    <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 sample">
         <form id="signupForm" method="POST" action="login.php">
@@ -392,13 +349,7 @@ h2 {
     <div class="mt-3 text-center d-flex flex-column align-items-center">
         <div class="btn-group mx-auto">
             <button type="submit" class="login" id="log">Login</button>
-        </div>
-    </div>
-    <div class="mt-3 text-center d-flex flex-column align-items-center">
-        <div class="btn-group">
-            <span class="or-divider">don't have an account? <span><br>
             <button type="button" onclick="window.location.href='signup.php'" class="signup">Sign Up</button>
-            
         </div>
     </div>
     
