@@ -11,20 +11,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>Order Form</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #BA90C6; 
+        body{
             font-family: "Outfit", sans-serif;
             background-image: url("assets/cart-bg.jpg");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
-
+        body .form-container{
+            justify-content: center;
+            align-items: center;
+            height: block;
+            margin: auto;
+            background-color: #BA90C6; 
+        }
         .form-container {
             width: 300px;
             padding: 20px;
@@ -71,10 +71,84 @@
         input[type="submit"]:hover {
             background-color: #C04A82;
         }
+        #cart{
+            margin-left: 10px;
+        }
+        #glasses{
+            margin-left: 10px;
+            font-size: 40px;
+        }
+        #home{
+          margin-left: 10px;
+          font-size: 40px;
+        }
+        #logout{
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 40px;
+        }
+        .navbar-brand {
+            margin-left: 20px; 
+        }
+        #cart-button{
+            font-size: 40px;
+            margin-left: 10px;
+        }
+        #glasses-button{
+            font-size: 40px;
+            margin-left: 10px;
+        }
+        #about-button{
+            font-size: 40px;
+            margin-left: 10px;
+        }
+        #about{
+            margin-left: 10px;
+            font-size: 40px;
+        }
+        .navbar{
+            background-color: rgb(45, 27, 84);
+            color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+        }
+        .brandname{
+            float: right;
+            font-size: 30px;
+            margin-left: 10px;
+            margin-top: 3px;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
-    <div class="form-container">
+<nav class="navbar navbar-light">
+    <a class="navbar-brand" href="#">
+        <img src="assets/logo.png" width="50" height="50">
+        <h1 class="brandname">ShopHear</h1>
+    </a>
+    <div class="ml-auto">
+    <a href="home.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="home">
+            <i class="bi bi-house-fill"></i>
+        </a>
+        <a href="index.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="glasses">
+            <i class="bi bi-emoji-sunglasses-fill" id="glasses-button"></i>
+        </a>
+        <a href="cart.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="cart">
+            <i class="bi bi-bag-fill" id="cart-button"></i>
+        </a> 
+        <a href="about.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="about">
+            <i class="bi bi-info-square-fill" id="about-button"></i>
+        </a>
+        <a href="logout.php">
+            <i class="bi bi-box-arrow-left" id="logout"></i>
+        </a>
+    </div>
+</nav>
+
+
+    <div class="form-container mt-5">
         <h2>Order Form</h2>
         <form method="post" action="#" onsubmit="return validateForm()">
             <label for="full_name">Full Name:</label><br>

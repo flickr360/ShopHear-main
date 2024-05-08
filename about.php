@@ -15,18 +15,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 </head>
-  <style>
+<style>
     .section-content p {
       letter-spacing: 2px;
       text-align: center;
       font-size: 16px;
     }
+    .team-member img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      border-radius: 10px; 
+    }
     body{
-        background-image: url(images/about-bg.png);
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        font-family: "Outfit", sans-serif;
+      background-image: url("images/about-bg.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       }
         #cart{
             margin-left: 10px;
@@ -69,9 +74,15 @@
         .navbar{
             background-color: rgb(45, 27, 84);
             color: #ffffff;
-            position: sticky;
             top: 0;
             z-index: 3;
+            background-color: rgb(45, 27, 84);
+            position: fixed; 
+            left: 0; 
+            right: 0; 
+            padding-top: 0; 
+            padding-bottom: 0; 
+            padding: 7px;
         }
         
   </style>

@@ -54,23 +54,37 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Varela+Round&display=swap');
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Varela+Round&family=Zen+Tokyo+Zoo&display=swap');
 
+        *{
+            font-family: "Poppins", sans-serif;
+        }
         body {
-            background-color: #BA90C6;
-            margin: 0;
-            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            background-image: url(images/signUP-bg.png);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
         }
 
         .mb-3 {
-            color: #FAF9F6;
-            font-family: 'Varela Round', sans-serif;
+            color: #640D6B;
+            font-size: 18px;
+            letter-spacing: 5px;
         }
 
         .box {
-            margin-top: 20px;
+            margin-top: 1px;
             display: grid;
             place-items: center;
             font-family: 'Varela Round', sans-serif;
@@ -80,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             font-weight: bold;
             font-size: 100px;
             text-transform: uppercase;
-            color: #F3BCC8;
+            color: #640D6B;
             animation: animate 4s infinite alternate;
         }
 
@@ -117,16 +131,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             background-color: transparent;
         }
         h2{
+            font-family: "Poppins", sans-serif;
+            font-size: 22px;
             text-align: center;
-            color: #FAF9F6;
-            font-family: 'Varela Round', sans-serif;
+            color: #332941;
             z-index: 2;
         }
         .or-divider {
             margin-left: 7px;
             margin-right: 7px;
             align-self: center;
-            color: #FAF9F6;
+            color: #332941;
             font-family: 'Varela Round', sans-serif;
         }
         .signcontainer {
@@ -154,7 +169,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
 
         #signupForm label {
-            color: #FAF9F6;
+            color: #332941;
+            font-weight: bold;
         }
         :root {
             --clr-neon: #C780FA;
@@ -292,9 +308,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     z-index: -1;
                 }
                 h2{
-                    font-size: 40px;
-                    text-transform: uppercase;
-                    color: #FBF1D3;
+                    font-family: "Poppins", sans-serif;
+                    font-size: 20px;
+                    color: #46244C;
                     animation: animate 3s infinite alternate;
                 }
             .alert-danger {

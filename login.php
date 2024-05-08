@@ -55,21 +55,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
         body {
-            background-color: #AD88C6;
-            background-image: url('yellow-bg.png');
+            background-image: url(images/login-back.png);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
             background-size: cover; 
             background-repeat: no-repeat;
             background-attachment: fixed; 
-            font-family: "Outfit", sans-serif;
+            background-color: white;
+            font-family: "Poppins", sans-serif
         }
 
         .mb-3 {
+            color: #640D6B;
             font-size: 18px;
-            font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 8px;
+            letter-spacing: 5px;
         }
 
         .box {
@@ -79,10 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             z-index: -1;
         }
         .box p {
-            font-size: 180px; /* Increased font size */
-            font-weight: bold; /* Added bold font weight */
+            color: #640D6B;
+            font-size: 180px; 
+            font-weight: bold; 
             text-transform: uppercase;
-            color: rgba(61, 21, 152, 0.8);
+            
         }
 
 
@@ -101,11 +106,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             margin-left: 7px;
             margin-right: 7px;
             align-self: center;
-            color: #FAF9F6; /* Set the text color to black or a color that contrasts well with your background */
+            color: #332941;
             font-family: 'Varela Round', sans-serif;
         }
         .signcontainer {
             background-color: #000000;
+            
         }
 
         .sign {
@@ -119,22 +125,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         .col-md-6 {
         text-align: center;
-        margin: 50px; /* Add margin to the form container */
+        margin: 50px; 
         }
         #signupForm {
-            text-align: left; /* Align the text to the left within the form */
-            max-width: 350px; /* Set a maximum width for the form if needed */
-            margin: auto; /* Center the form horizontally */
+            text-align: left; 
+            max-width: 350px; 
+            margin: auto; 
             margin-top: -50px;
         }
 
         #signupForm label {
-            color: #37062b;
+            color: #332941;
         }
         :root {
-    --clr-neon: hsl(346, 100%, 50%);
-    --clr-bg: hsl(0, 0%, 0%);
-    }
+            --clr-neon: #C780FA;
+            --clr-bg: hsl(0, 0%, 0%);
+         }
     .sign {
             position: relative;
             background: none;
@@ -142,7 +148,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             font-size: 4rem;
             display: inline-block;
             font-family: 'Varela Round', sans-serif;
+            
         }
+        .form-control {
+            background-color: #BBBBBB; /* Change this color to your desired background color */
+        }
+
 
         .col-md-6 {
             text-align: center;
@@ -156,7 +167,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
 
         #signupForm label {
-            color: #FAF9F6;
+            font-weight: bold;
+            color: #332941;
         }
         :root {
             --clr-neon: #C780FA;

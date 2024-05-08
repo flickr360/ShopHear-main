@@ -404,6 +404,8 @@
                 alert('No item was selected.');
                 return;
             }
+            var urlParams = new URLSearchParams(window.location.search);
+            var userId = urlParams.get('user_id');
 
             window.location.href = "order.php?user_id=" + userId;
         });
