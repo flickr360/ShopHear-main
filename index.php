@@ -38,6 +38,14 @@
             max-height: 100%;
             object-fit: contain;
         }
+        .instructions{
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          font-weight: bold;
+          color: black !important;
+          display: inline-block;
+        }
     </style>
 </head>
 
@@ -46,8 +54,16 @@
         <a href="login.php">
             <img src="images/shophear.gif" alt="ShopHear">
         </a>
+        <div class="instructions">
+                  <h1>INSTRUCTIONS:</h1>
+                  <h1>PRESS "H"  TO GO TO HOMEPAGE</h1>
+                  <h1>PRESS "P" TO GO TO OUR PRODUCTS</h1>
+                  <h1>PRESS "C" TO GO TO CART</h1>
+                  <h1>PRESS "A" TO GO TO OUR ABOUT PAGE</h1>
+                  <h1>PRESS "SPACEBAR" TO CONTINUE</h1>
+         </div>
     </div>
-
+    
    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -56,6 +72,11 @@
             event.preventDefault(); 
             window.location.href = imageLink.href; 
         });
+        document.addEventListener('keydown', function(event) {
+        if (event.key === ' ') { // Check if the pressed key is the spacebar
+            window.location.href = imageLink.href; // Navigate to the same page
+        }
+    }); 
     </script>
 </body>
 

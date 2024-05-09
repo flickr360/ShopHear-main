@@ -289,6 +289,9 @@
         a:hover{
           color: gray;
         }
+        .navbar{
+            padding: 10px;
+        }
 
     </style>
 </head>

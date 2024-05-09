@@ -290,7 +290,6 @@ body {
         a:hover{
           color: gray;
         }
-        
   
   </style>
 
@@ -335,6 +334,7 @@ body {
               </div>
               <div class="col-md-6">
                 <div class="rounded p-4 yellow-text-bg">
+            
                   <div class="yellow-text">
                   <p>Step into our world of carefully chosen products designed to enhance your hearing and sight. Our collection is all about making sure you hear every sound clearly and see everything with sharpness and clarity, making your daily experiences more enjoyable.</p>
                   <p>Our team is dedicated to providing personalized support that's just right for you. We understand that everyone's journey to better hearing and vision is unique, so we're here to guide you every step of the way. You'll find our friendly guide to make your experience smooth and hassle-free.</p>
