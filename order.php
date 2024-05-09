@@ -73,6 +73,7 @@
         }
         #cart{
             margin-left: 10px;
+            font-size: 40px;
         }
         #glasses{
             margin-left: 10px;
@@ -87,23 +88,9 @@
             margin-right: 10px;
             font-size: 40px;
         }
-        .navbar-brand {
-            margin-left: 20px; 
-        }
-        #cart-button{
-            font-size: 40px;
-            margin-left: 10px;
-        }
-        #glasses-button{
-            font-size: 40px;
-            margin-left: 10px;
-        }
-        #about-button{
-            font-size: 40px;
-            margin-left: 10px;
-        }
         #about{
             margin-left: 10px;
+            margin-right: 10px;
             font-size: 40px;
         }
         .navbar{
@@ -120,6 +107,13 @@
             margin-top: 3px;
             color: #ffffff;
         }
+        a{
+          color: white;
+        }
+        a:hover{
+          color: gray;
+        }
+        
     </style>
 </head>
 <body>
@@ -128,11 +122,11 @@
         <img src="assets/logo.png" width="50" height="50">
         <h1 class="brandname">ShopHear</h1>
     </a>
-    <div class="ml-auto">
+    <div class="ml-auto justify-content-center justify-content-md-end">
     <a href="home.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="home">
             <i class="bi bi-house-fill"></i>
         </a>
-        <a href="index.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="glasses">
+        <a href="product.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="glasses">
             <i class="bi bi-emoji-sunglasses-fill" id="glasses-button"></i>
         </a>
         <a href="cart.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="cart">

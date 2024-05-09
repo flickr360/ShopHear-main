@@ -162,6 +162,7 @@
         }
         #cart{
             margin-left: 10px;
+            text-decoration: none;
         }
         #glasses{
             margin-left: 10px;
@@ -175,6 +176,15 @@
             margin-left: 10px;
             margin-right: 10px;
             font-size: 40px;
+        }
+        .ml-auto{
+            display: flex;
+        }
+        a{
+          color: white;
+        }
+        a:hover{
+          color: gray;
         }
 
     </style>
@@ -190,7 +200,7 @@
     <a href="home.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="home">
             <i class="bi bi-house-fill"></i>
         </a>
-        <a href="index.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="glasses">
+        <a href="product.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="glasses">
             <i class="bi bi-emoji-sunglasses-fill" id="glasses-button"></i>
         </a>
         <a href="cart.php?user_id=<?php if(isset($_GET['user_id'])) { echo $_GET['user_id']; } ?>" id="cart">
@@ -289,9 +299,9 @@
             window.location.href = "home.php?user_id=" + userId;
         }
 
-        function goToIndex() {
+        function goToProduct() {
             console.log("Clicked index");
-            window.location.href = "index.php?user_id=" + userId;
+            window.location.href = "product.php?user_id=" + userId;
         }
 
         function goToCart() {
@@ -305,7 +315,7 @@
         }
 
         $("#home").click(goToHome);
-        $("#glasses").click(goToIndex);
+        $("#glasses").click(goToProduct);
         $("#cart").click(goToCart);
         $("#about").click(goToAbout);
 
@@ -316,7 +326,7 @@
                         goToHome();
                         break;
                     case 'p':
-                        goToIndex();
+                        goToProduct();
                         break;
                     case 'c':
                         goToCart();

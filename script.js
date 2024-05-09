@@ -264,6 +264,7 @@ function addToCart(voiceCommand) {
 
     lastCommandTime = currentTime;
 
+
     const match = voiceCommand.match(/add (.+) to cart/i);
     if (match && match[1]) {
         let itemName = match[1].trim().toLowerCase();
@@ -315,7 +316,7 @@ function addToCart(voiceCommand) {
                     addToTransaction(itemName, quantity, totalPrice, userId);
                     console.log(`Added ${quantity} ${name} to cart. Total price: $${totalPrice.toFixed(2)}`);
                     orderProcessed = true; 
-                    // Reset recognition to prevent further commands until explicitly restarted
+                    
                     recognition.stop();
                     recognition.start();
                 } else {
@@ -335,6 +336,7 @@ function addToCart(voiceCommand) {
         speechSynthesis.speak(utterance);
     }
 }
+
 
 startButton.addEventListener('click', toggleRecognition);
 
